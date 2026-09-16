@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bordeaux — Guide des Grands Vins</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bx:#6B1A2A;--bxl:#8B2A3A;--bxd:#3D0A14;--gold:#C9A84C;--goldl:#E8C97A;--cream:#F5EFE0;--creamd:#C8BEA0;--dark:#0F0608;--darkm:#160A0D;--darkc:#1C0C10;--darke:#220E13;--txt:#E8E0CC;--dim:#8A8070;--div:rgba(201,168,76,0.18);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Montserrat',sans-serif;background:var(--dark);color:var(--txt);font-size:12.5px;line-height:1.6;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:center;align-items:center;gap:0;background:rgba(12,5,7,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--div);}
+.nav-item{padding:14px 18px;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--dim);text-decoration:none;cursor:pointer;transition:color .25s,background .25s;border-right:1px solid var(--div);}
+.nav-item:first-child{border-left:1px solid var(--div);}
+.nav-item:hover,.nav-item.active{color:var(--goldl);background:rgba(201,168,76,0.06);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% -10%,#4A0E1A 0%,#1A0408 50%,var(--dark) 100%);}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:220px;background:linear-gradient(transparent,var(--dark));pointer-events:none;}
+.hero-badge{font-size:10px;letter-spacing:.55em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;opacity:0;animation:fu .9s ease forwards .3s;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(72px,13vw,150px);font-weight:300;letter-spacing:.07em;line-height:.88;color:var(--cream);opacity:0;animation:fu .9s ease forwards .6s;}
+.hero-title em{font-style:italic;color:var(--goldl);display:block;font-size:.38em;letter-spacing:.3em;margin-top:18px;}
+.hero-sub{font-size:9.5px;letter-spacing:.4em;text-transform:uppercase;color:var(--dim);margin-top:36px;opacity:0;animation:fu .9s ease forwards .9s;}
+.hero-line{width:1px;height:70px;background:linear-gradient(var(--gold),transparent);margin:36px auto 0;opacity:0;animation:fu .9s ease forwards 1.1s;}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* PAGE SECTIONS */
+.page{display:none;padding:80px 0 40px;}
+.page.active{display:block;}
+.container{max-width:1500px;margin:0 auto;padding:0 30px;}
+
+/* SECTION HEADERS */
+.sec-label{font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,56px);font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:36px;}
+.sec-title em{font-style:italic;color:var(--goldl);}
+
+/* FILTER BAR */
+.filter-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;align-items:center;}
+.filter-bar label{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-right:4px;}
+.fbtn{font-size:9px;letter-spacing:.25em;text-transform:uppercase;padding:7px 14px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--dim);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;border-radius:1px;}
+.fbtn:hover,.fbtn.on{background:var(--bx);border-color:var(--bxl);color:var(--cream);}
+.fbtn.gold-active{background:var(--gold);border-color:var(--gold);color:var(--dark);}
+input[type=text].fsearch{font-size:11px;padding:7px 14px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:var(--txt);font-family:'Montserrat',sans-serif;outline:none;min-width:200px;border-radius:1px;}
+input[type=text].fsearch::placeholder{color:var(--dim);}
+input[type=text].fsearch:focus{border-color:var(--gold);}
+
+/* TABLE BASE */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--div);}
+table{width:100%;border-collapse:collapse;min-width:600px;}
+thead tr{background:rgba(201,168,76,.06);border-bottom:1px solid var(--div);}
+th{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);padding:11px 14px;text-align:left;white-space:nowrap;cursor:pointer;user-select:none;}
+th:hover{color:var(--goldl);}
+th .sort-arrow{margin-left:4px;opacity:.4;}
+th.sorted .sort-arrow{opacity:1;color:var(--goldl);}
+td{padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.03);font-size:11.5px;color:var(--txt);vertical-align:middle;}
+tr:hover td{background:rgba(255,255,255,.02);}
+tbody tr:last-child td{border-bottom:none;}
+
+/* SCORE BADGE */
+.sc{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;font-size:10.5px;font-weight:600;font-family:'Montserrat',sans-serif;flex-shrink:0;}
+.s100{background:#5C0A0A;color:#FFD700;border:1.5px solid #C9A84C;}
+.s95{background:#6B1010;color:#FFCB5A;border:1.5px solid #B08030;}
+.s90{background:#5A1A20;color:#F0B860;border:1.5px solid #906840;}
+.s85{background:#3A2010;color:#D4A060;border:1.5px solid #705030;}
+.s80{background:#282020;color:#C09060;border:1.5px solid #605040;}
+.s75{background:#1E1E20;color:#909090;border:1.5px solid #404040;}
+.s70{background:#181818;color:#686868;border:1.5px solid #303030;}
+.s0{background:#141414;color:#505050;border:1.5px solid #282828;}
+
+/* VINTAGE YEAR CELL */
+.yr-cell{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:var(--cream);white-space:nowrap;}
+.vintage-note{font-size:10.5px;color:var(--dim);max-width:240px;line-height:1.5;}
+
+/* SCORE STAR ROW */
+.star-bar{display:flex;gap:2px;align-items:center;}
+.star-pip{width:7px;height:7px;border-radius:50%;}
+
+/* 1855 CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:2px;}
+.ch-card{background:var(--darkc);border:1px solid var(--div);padding:18px 20px;transition:background .25s,border-color .25s;position:relative;overflow:hidden;}
+.ch-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);transform:scaleY(0);transition:transform .3s;transform-origin:bottom;}
+.ch-card:hover{background:#250F14;}
+.ch-card:hover::before{transform:scaleY(1);}
+.ch-growth{font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.ch-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;color:var(--cream);margin-bottom:3px;line-height:1.25;}
+.ch-app{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;}
+.ch-note{font-size:10px;color:var(--dim);line-height:1.55;}
+
+/* COUNT BADGE */
+.count-badge{display:inline-block;background:rgba(201,168,76,.12);border:1px solid var(--div);color:var(--gold);font-size:9px;padding:2px 10px;margin-left:10px;letter-spacing:.2em;}
+
+/* APPELLATIONS */
+.app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;}
+.app-card{background:var(--darkc);border:1px solid var(--div);padding:24px 26px;transition:background .25s;}
+.app-card:hover{background:#250F14;}
+.app-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:middle;}
+.app-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--cream);margin-bottom:4px;}
+.app-type{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.app-desc{font-size:11.5px;color:var(--dim);line-height:1.7;margin-bottom:12px;}
+.app-subs{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;padding-top:10px;border-top:1px solid var(--div);}
+.app-sub{font-size:9px;letter-spacing:.12em;color:var(--creamd);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:3px 8px;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--div);padding:32px 30px;text-align:center;color:var(--dim);font-size:9.5px;letter-spacing:.15em;margin-top:60px;}
+footer a{color:var(--gold);text-decoration:none;}
+.divider{height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:40px 0;}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-item active" onclick="showPage('home',this)">Bordeaux</span>
+  <span class="nav-item" onclick="showPage('appellations',this)">Appellationen</span>
+  <span class="nav-item" onclick="showPage('vintage',this)">Jahrgänge 1980–2024</span>
+  <span class="nav-item" onclick="showPage('class1855',this)">Klassifikation 1855</span>
+  <span class="nav-item" onclick="showPage('sauternes',this)">Sauternes & Barsac</span>
+</nav>
+
+<!-- ========== HOME ========== -->
+<div id="page-home" class="page active">
+<div class="hero">
+  <div class="hero-badge">Gironde · France · Grand Crus Classés</div>
+  <h1 class="hero-title">Bordeaux<em>Guide des Grands Vins</em></h1>
+  <p class="hero-sub">Appellationen · Jahrgänge 1980–2024 · Klassifikation 1855 · Tous les Châteaux</p>
+  <div class="hero-line"></div>
+  <div style="position:absolute;bottom:40px;z-index:2;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+    <span onclick="showPage('appellations',null)" style="cursor:pointer;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:11px 22px;border:1px solid var(--div);color:var(--dim);background:rgba(255,255,255,.02);transition:all .2s;" onmouseover="this.style.color='var(--goldl)'" onmouseout="this.style.color='var(--dim)'">→ Appellationen</span>
+    <span onclick="showPage('vintage',null)" style="cursor:pointer;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:11px 22px;background:var(--bx);border:1px solid var(--bxl);color:var(--cream);">→ Jahrgangstabelle</span>
+    <span onclick="showPage('class1855',null)" style="cursor:pointer;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:11px 22px;border:1px solid var(--div);color:var(--dim);background:rgba(255,255,255,.02);" onmouseover="this.style.color='var(--goldl)'" onmouseout="this.style.color='var(--dim)'">→ Klassifikation 1855</span>
+  </div>
+</div>
+</div>
+
+<!-- ========== APPELLATIONEN ========== -->
+<div id="page-appellations" class="page">
+<div class="container" style="padding-top:40px;">
+  <span class="sec-label">Les Appellations Contrôlées</span>
+  <h2 class="sec-title">Die Weinregionen <em>von Bordeaux</em></h2>
+  <div class="app-grid" id="appGrid"></div>
+</div>
+</div>
+
+<!-- ========== JAHRGÄNGE ========== -->
+<div id="page-vintage" class="page">
+<div class="container" style="padding-top:40px;">
+  <span class="sec-label">Millésimes · Jahrgangstabelle</span>
+  <h2 class="sec-title">Jahrgangsbewertungen <em>1980–2024</em></h2>
+  <p style="color:var(--dim);font-size:11px;margin-bottom:28px;max-width:800px;line-height:1.8;">Konsolidierte Bewertungen aus 4 unabhängigen Quellen: <a href="https://www.thewinecellarinsider.com" target="_blank" style="color:var(--gold)">Wine Cellar Insider</a> · <a href="https://www.jancisrobinson.com" target="_blank" style="color:var(--gold)">Jancis Robinson MW</a> · <a href="https://www.winespectator.com" target="_blank" style="color:var(--gold)">Wine Spectator</a> · <a href="https://www.decanter.com" target="_blank" style="color:var(--gold)">Decanter</a>. Punkte auf 100-Punkte-Skala.</p>
+
+  <div class="filter-bar">
+    <label>Region:</label>
+    <button class="fbtn on" onclick="setVCol('all',this)">Alle Spalten</button>
+    <button class="fbtn" onclick="setVCol('left',this)">Linkes Ufer</button>
+    <button class="fbtn" onclick="setVCol('right',this)">Rechtes Ufer</button>
+    <button class="fbtn" onclick="setVCol('saut',this)">Sauternes</button>
+    <span style="width:1px;height:20px;background:var(--div);margin:0 6px;"></span>
+    <label>Qualität:</label>
+    <button class="fbtn on" onclick="filterVintage('all',this)">Alle</button>
+    <button class="fbtn" onclick="filterVintage('leg',this)">★ Legendär 96+</button>
+    <button class="fbtn" onclick="filterVintage('exc',this)">Exzellent 90–95</button>
+    <button class="fbtn" onclick="filterVintage('vgood',this)">Sehr gut 85–89</button>
+    <button class="fbtn" onclick="filterVintage('good',this)">Gut 80–84</button>
+    <button class="fbtn" onclick="filterVintage('poor',this)">Schwach &lt;80</button>
+  </div>
+
+  <!-- LEGEND -->
+  <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:22px;padding:14px 18px;background:var(--darkc);border:1px solid var(--div);">
+    <span style="font-size:9px;color:var(--dim);letter-spacing:.2em;text-transform:uppercase;margin-right:8px;">Legende:</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);"><span class="sc s100">98</span>Legendär 96+</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);"><span class="sc s95">92</span>Exzellent 90–95</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);"><span class="sc s85">87</span>Sehr gut 85–89</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);"><span class="sc s80">82</span>Gut 80–84</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);"><span class="sc s75">76</span>Durchschn. 75–79</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);"><span class="sc s0">68</span>Schwach &lt;75</span>
+    <span style="margin-left:auto;font-size:9px;color:var(--dim);align-self:center;">Klick auf Spalten-Header = sortieren</span>
+  </div>
+
+  <div class="tbl-wrap">
+    <table id="vtable">
+      <thead>
+        <tr>
+          <th onclick="sortVt(0)" data-col="0">Jahr <span class="sort-arrow">↕</span></th>
+          <th class="col-left col-right" onclick="sortVt(1)" data-col="1">Pauillac / St-Julien <span class="sort-arrow">↕</span></th>
+          <th class="col-left" onclick="sortVt(2)" data-col="2">Margaux <span class="sort-arrow">↕</span></th>
+          <th class="col-left" onclick="sortVt(3)" data-col="3">St-Estèphe <span class="sort-arrow">↕</span></th>
+          <th class="col-left" onclick="sortVt(4)" data-col="4">Pessac-Léognan <span class="sort-arrow">↕</span></th>
+          <th class="col-right" onclick="sortVt(5)" data-col="5">Pomerol <span class="sort-arrow">↕</span></th>
+          <th class="col-right" onclick="sortVt(6)" data-col="6">St-Émilion <span class="sort-arrow">↕</span></th>
+          <th class="col-saut" onclick="sortVt(7)" data-col="7">Sauternes <span class="sort-arrow">↕</span></th>
+          <th>Ø</th>
+          <th style="min-width:220px;">Charakter & Trinkreife</th>
+        </tr>
+      </thead>
+      <tbody id="vtbody"></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ========== KLASSIFIKATION 1855 ========== -->
+<div id="page-class1855" class="page">
+<div class="container" style="padding-top:40px;">
+  <span class="sec-label">Classification Officielle du Médoc · 1855</span>
+  <h2 class="sec-title">Grands Crus Classés <em>du Médoc</em></h2>
+  <p style="color:var(--dim);font-size:11px;margin-bottom:28px;max-width:760px;line-height:1.8;">Napoleon III. beauftragte 1855 die Pariser Weltausstellung zur Klassifikation der besten Bordeaux-Weine. 61 Châteaux des Médoc wurden in 5 Lagen eingeteilt. Seit 1855 gab es nur 2 Änderungen: Cantemerle (1856 ergänzt) und Mouton Rothschild (1973 von 2ème zu 1er aufgestuft). Quelle: <a href="https://gcc-1855.fr" target="_blank" style="color:var(--gold)">gcc-1855.fr</a> (offizielle PDF).</p>
+
+  <div class="filter-bar">
+    <label>Lage:</label>
+    <button class="fbtn on" onclick="filterGCC('all',this)">Alle (61)</button>
+    <button class="fbtn" onclick="filterGCC('1',this)">1er Cru (5)</button>
+    <button class="fbtn" onclick="filterGCC('2',this)">2ème Cru (14)</button>
+    <button class="fbtn" onclick="filterGCC('3',this)">3ème Cru (14)</button>
+    <button class="fbtn" onclick="filterGCC('4',this)">4ème Cru (10)</button>
+    <button class="fbtn" onclick="filterGCC('5',this)">5ème Cru (18)</button>
+    <span style="width:1px;height:20px;background:var(--div);margin:0 6px;"></span>
+    <label>Appellation:</label>
+    <button class="fbtn" onclick="filterGCCapp('Pauillac',this)">Pauillac</button>
+    <button class="fbtn" onclick="filterGCCapp('Margaux',this)">Margaux</button>
+    <button class="fbtn" onclick="filterGCCapp('Saint-Julien',this)">Saint-Julien</button>
+    <button class="fbtn" onclick="filterGCCapp('Saint-Estèphe',this)">St-Estèphe</button>
+    <button class="fbtn" onclick="filterGCCapp('Haut-Médoc',this)">Haut-Médoc</button>
+    <button class="fbtn" onclick="filterGCCapp('Pessac',this)">Pessac-Léognan</button>
+    <span style="width:1px;height:20px;background:var(--div);margin:0 6px;"></span>
+    <input type="text" class="fsearch" id="gccSearch" placeholder="Château suchen…" oninput="filterGCCsearch()">
+  </div>
+
+  <div class="tbl-wrap">
+    <table id="gcctable">
+      <thead>
+        <tr>
+          <th onclick="sortGCC(0)">Lage <span class="sort-arrow">↕</span></th>
+          <th onclick="sortGCC(1)">Château <span class="sort-arrow">↕</span></th>
+          <th onclick="sortGCC(2)">Appellation <span class="sort-arrow">↕</span></th>
+          <th>Rebsorten</th>
+          <th>Charakter & Notizen</th>
+        </tr>
+      </thead>
+      <tbody id="gcctbody"></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ========== SAUTERNES ========== -->
+<div id="page-sauternes" class="page">
+<div class="container" style="padding-top:40px;">
+  <span class="sec-label">Grands Crus Classés de Sauternes & Barsac · 1855</span>
+  <h2 class="sec-title">Sauternes & Barsac <em>1855 Klassifikation</em></h2>
+  <p style="color:var(--dim);font-size:11px;margin-bottom:28px;max-width:760px;line-height:1.8;">27 Châteaux wurden 1855 für ihre edelsüßen Botrytis-Weine klassifiziert. Einzig Château d'Yquem erhielt den Sonderstatus <em>Premier Cru Supérieur</em> — eine Auszeichnung, die kein anderes Weingut besitzt. Quelle: <a href="https://gcc-1855.fr" target="_blank" style="color:var(--gold)">gcc-1855.fr</a>.</p>
+
+  <div class="filter-bar">
+    <label>Lage:</label>
+    <button class="fbtn on" onclick="filterSaut('all',this)">Alle (27)</button>
+    <button class="fbtn" onclick="filterSaut('sup',this)">Premier Cru Supérieur (1)</button>
+    <button class="fbtn" onclick="filterSaut('1er',this)">1er Cru (11)</button>
+    <button class="fbtn" onclick="filterSaut('2eme',this)">2ème Cru (15)</button>
+    <span style="width:1px;height:20px;background:var(--div);margin:0 6px;"></span>
+    <label>Appellation:</label>
+    <button class="fbtn" onclick="filterSautApp('Sauternes',this)">Sauternes</button>
+    <button class="fbtn" onclick="filterSautApp('Barsac',this)">Barsac</button>
+    <span style="width:1px;height:20px;background:var(--div);margin:0 6px;"></span>
+    <input type="text" class="fsearch" id="sautSearch" placeholder="Château suchen…" oninput="filterSautSearch()">
+  </div>
+
+  <div class="tbl-wrap">
+    <table id="sauttable">
+      <thead>
+        <tr>
+          <th onclick="sortSaut(0)">Lage <span class="sort-arrow">↕</span></th>
+          <th onclick="sortSaut(1)">Château <span class="sort-arrow">↕</span></th>
+          <th onclick="sortSaut(2)">Appellation <span class="sort-arrow">↕</span></th>
+          <th>Rebsorten</th>
+          <th>Charakter & Notizen</th>
+        </tr>
+      </thead>
+      <tbody id="sauttbody"></tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+  <span class="sec-label">Jahrgangstabelle Sauternes</span>
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--cream);margin-bottom:24px;">Sauternes-Jahrgänge <em style="font-style:italic;color:var(--goldl)">1980–2024</em></h3>
+  <div class="tbl-wrap">
+    <table id="vsauttable">
+      <thead>
+        <tr>
+          <th onclick="sortVSaut(0)">Jahr <span class="sort-arrow">↕</span></th>
+          <th onclick="sortVSaut(1)">Bewertung <span class="sort-arrow">↕</span></th>
+          <th>Botrytis-Qualität</th>
+          <th>Charakter & Notizen</th>
+        </tr>
+      </thead>
+      <tbody id="vsauttbody"></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<footer>
+  <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--cream);margin-bottom:10px;">Bordeaux — Guide des Grands Vins</p>
+  <p>Quellen: <a href="https://gcc-1855.fr" target="_blank">gcc-1855.fr (offizielle 1855-Klassifikation)</a> · <a href="https://www.thewinecellarinsider.com" target="_blank">Wine Cellar Insider</a> · <a href="https://www.jancisrobinson.com" target="_blank">Jancis Robinson MW</a> · <a href="https://www.winespectator.com" target="_blank">Wine Spectator</a> · <a href="https://www.decanter.com" target="_blank">Decanter</a> · <a href="https://www.bordeaux.com" target="_blank">Bordeaux.com</a></p>
+  <p style="margin-top:8px;font-size:9px;">Jahrgangsbewertungen sind konsolidierte Expertenmeinungen. Keine Gewähr. Konsultieren Sie stets aktuelle Primärquellen.</p>
+</footer>
+
+<script>
+// =============================================
+// PAGE NAVIGATION
+// =============================================
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+  else {
+    document.querySelectorAll('.nav-item').forEach(n => {
+      if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + id + "'")) n.classList.add('active');
+    });
+  }
+  window.scrollTo(0, 0);
+}
+
+// =============================================
+// SCORE CLASS
+// =============================================
+function sc(s) {
+  if (!s || s === '-') return 's0';
+  s = parseInt(s);
+  if (s >= 96) return 's100';
+  if (s >= 90) return 's95';
+  if (s >= 85) return 's90';
+  if (s >= 80) return 's85';
+  if (s >= 75) return 's80';
+  if (s >= 70) return 's75';
+  return 's70';
+}
+function scBadge(s) {
+  if (!s || s === 0) return '<span class="sc s0">—</span>';
+  return `<span class="sc ${sc(s)}">${s}</span>`;
+}
+
+// =============================================
+// APPELLATIONEN DATA
+// =============================================
+const appellations = [
+  { name: 'Bordeaux & Bordeaux Supérieur', color: '#D03030', type: 'Rote · Rosé · Clairet', desc: 'Die breiteste Basis-Appellation der Region mit über 40.000 ha. Überwiegend Merlot, Cabernet Sauvignon und Cabernet Franc. Bordeaux Supérieur erfordert 0,5% mehr Alkohol und niedrigere Erträge.', subs: ['Bordeaux rouge', 'Bordeaux Supérieur rouge', 'Bordeaux rosé', 'Bordeaux clairet', 'Ste-Foy-Bordeaux'] },
+  { name: 'Les Côtes de Bordeaux', color: '#B81C3C', type: 'Rote Weine · Terrassenlagen', desc: 'Zusammenschluss mehrerer Côtes-Appellationen (seit 2009) entlang Gironde und Dordogne. Merlot-dominiert, oft mit markantem Terroir-Charakter und gutem Preis-Leistungs-Verhältnis.', subs: ['Côtes de Bordeaux', 'Premières Côtes de Bordeaux', 'Côtes de Bourg', 'Côtes de Francs', 'Côtes de Castillon', 'Graves-de-Vayres'] },
+  { name: 'Saint-Émilion · Pomerol · Fronsac', color: '#7B2090', type: 'Rechtes Ufer · Merlot · Cabernet Franc', desc: 'Das "rechte Ufer" — das Herzstück für Merlot-basierte Weine. Saint-Émilions UNESCO-Kalksteinplateau, Pomerols legendärer blauer Ton (Pétrus-Terroir), Fronsac als aufstrebende Alternative.', subs: ['Saint-Émilion', 'Saint-Émilion Grand Cru', 'Pomerol', 'Lalande-de-Pomerol', 'Fronsac', 'Canon-Fronsac', 'Lussac-Saint-Émilion', 'Montagne-Saint-Émilion', 'Puisseguin-Saint-Émilion', 'Saint-Georges-Saint-Émilion'] },
+  { name: 'Médoc & Haut-Médoc', color: '#A01830', type: 'Linkes Ufer · Cabernet Sauvignon', desc: 'Die Médoc-Halbinsel — zwischen Atlantik und Gironde. Kiesböden (Graves) geben dem Cabernet Sauvignon seine Kraft und Langlebigkeit. Hier liegen fast alle 1855-klassifizierten Châteaux.', subs: ['Médoc', 'Haut-Médoc', 'Margaux', 'Saint-Julien', 'Pauillac', 'Saint-Estèphe', 'Moulis', 'Listrac-Médoc'] },
+  { name: 'Graves & Pessac-Léognan', color: '#8B1A40', type: 'Rot & Weiß · Kiesböden', desc: 'Älteste Weinregion Bordeaux\', direkt südlich der Stadt. Pessac-Léognan (seit 1987 eigene AOC) produziert die besten Weißweine Bordeaux\' sowie renommierte Rote. Haut-Brion ist der einzige Graves-Wein in der 1855-Klassifikation.', subs: ['Graves', 'Pessac-Léognan', 'Graves Supérieures'] },
+  { name: 'Vins Blancs d\'Or — Süßweine', color: '#E8880A', type: 'Edelsüß · Botrytis cinerea', desc: 'Sauternes und Barsac sind die sublimsten Süßweine der Welt. Der Nebel des Ciron-Flusses fördert die Botrytis cinerea (Edelfäule). Château d\'Yquem ist Premier Cru Supérieur — eine einzigartige Auszeichnung.', subs: ['Sauternes', 'Barsac', 'Cadillac', 'Cérons', 'Loupiac', 'Ste-Croix-du-Mont', 'Graves Supérieures'] },
+  { name: 'Vins Blancs Secs — Trockene Weiße', color: '#D4C050', type: 'Trocken · Sauvignon Blanc · Sémillon', desc: 'Zwischen Garonne und Dordogne (Entre-Deux-Mers) entstehen frische, mineralische Weißweine. Sauvignon Blanc dominiert, oft mit Sémillon verschnitten. Pessac-Léognan liefert die edelsten Vertreter.', subs: ['Entre-Deux-Mers', 'Entre-Deux-Mers Haut-Benauge', 'Bordeaux Blanc', 'Bordeaux Haut-Benauge', 'Blaye Côtes de Bordeaux blanc', 'Premières Côtes de Blaye', 'Crémant de Bordeaux'] },
+];
+
+function renderAppellations() {
+  const g = document.getElementById('appGrid');
+  g.innerHTML = appellations.map(a => `
+    <div class="app-card">
+      <div class="app-name"><span class="app-dot" style="background:${a.color}"></span>${a.name}</div>
+      <div class="app-type">${a.type}</div>
+      <div class="app-desc">${a.desc}</div>
+      <div class="app-subs">${a.subs.map(s => `<span class="app-sub">${s}</span>`).join('')}</div>
+    </div>`).join('');
+}
+renderAppellations();
+
+// =============================================
+// VINTAGE DATA (consolidated TWCI + Jancis + WS + Decanter)
+// =============================================
+const vintages = [
+  { y:2024, p:83, mg:83, es:82, pe:85, pm:81, em:82, st:87, note:'Regen & Mehltau; Merlot litt stark, Cab.Sauv. überlegen. Sauternes gerettet durch Botrytis. Sehr selektiv kaufen.', drink:'2026–2032' },
+  { y:2023, p:93, mg:92, es:92, pe:93, pm:93, em:93, st:90, note:'Klassischer moderner Stil. Niedriger Alkohol, frische Frucht, weiches Tannin. Beides (links & rechts) empfehlenswert.', drink:'2027–2042' },
+  { y:2022, p:98, mg:97, es:96, pe:97, pm:97, em:97, st:96, note:'Einer der größten Jahrgänge aller Zeiten. Heiß, trocken, perfekt. Konzentration + Balance + Langlebigkeit.', drink:'2028–2060+' },
+  { y:2021, p:89, mg:88, es:88, pe:90, pm:89, em:88, st:85, note:'Frost im Frühjahr (-4°C). Kühle Sommer. Pessac-Léognan bestes Ergebnis. Elegant, frisch, zugänglich.', drink:'2025–2038' },
+  { y:2020, p:96, mg:96, es:95, pe:96, pm:96, em:96, st:90, note:'Heiß & trocken — nahe perfekter Reife. Kraftvoll aber ausgewogen. Beide Ufer außergewöhnlich.', drink:'2027–2055' },
+  { y:2019, p:95, mg:95, es:95, pe:95, pm:96, em:95, st:93, note:'Eines der besten der letzten 20 Jahre. Reifes Tannin, perfekte Balance. Pomerol hervorragend.', drink:'2026–2055' },
+  { y:2018, p:94, mg:94, es:93, pe:94, pm:95, em:95, st:91, note:'Warm und trocken. Kräftig, opulent, tiefdunkel. Rechtes Ufer sehr stark. Fette Tannine.', drink:'2025–2050' },
+  { y:2017, p:88, mg:87, es:88, pe:88, pm:85, em:85, st:88, note:'Frost April 2017: schlimmstes seit 1991. Médoc erholte sich, Rechtes Ufer unregelmäßig. Trikbar, kein Klassiker.', drink:'2023–2035' },
+  { y:2016, p:99, mg:99, es:97, pe:97, pm:96, em:95, st:88, note:'BESTES Médoc-Jahr in Jahrzehnten. Margaux absolut phänomenal. Klassisch + langlebig + universell gelobt.', drink:'2026–2060+' },
+  { y:2015, p:93, mg:93, es:92, pe:93, pm:94, em:94, st:92, note:'Warm, sonnig, perfekte Reife. Opulent und zugänglich. Beide Ufer stark. Sauternes hervorragend.', drink:'2024–2048' },
+  { y:2014, p:91, mg:90, es:91, pe:91, pm:89, em:89, st:87, note:'Klassisch, elegant, Médoc übertrifft Rechtes Ufer. Ausgezeichnetes Preis-Leistungs-Verhältnis. Geduldig.', drink:'2024–2044' },
+  { y:2013, p:83, mg:82, es:82, pe:83, pm:82, em:82, st:85, note:'Schwieriges Regenjahr. Wenig Empfehlenswertes außer Top-Châteaux. Nur mit Expertise kaufen.', drink:'2022–2030' },
+  { y:2012, p:87, mg:86, es:87, pe:88, pm:88, em:88, st:86, note:'Unterschätzter Jahrgang. Elegant, trikbar. Rechtes Ufer gleichwertig Médoc. Gutes Preis-Leistungs-Potential.', drink:'2023–2038' },
+  { y:2011, p:85, mg:85, es:85, pe:86, pm:85, em:85, st:94, note:'Unregelmäßig bei Roten. Pessac-Léognan hebt sich ab. Sauternes hervorragend (Botrytis perfekt).', drink:'2023–2038 / Saut: 2025–2055' },
+  { y:2010, p:97, mg:97, es:96, pe:97, pm:98, em:97, st:96, note:'DAS PERFEKTE JAHR. Konzentration + Balance + Frische = Gleichgewicht. Pomerol legendär. Für Ewigkeit.', drink:'2025–2065+' },
+  { y:2009, p:95, mg:95, es:94, pe:95, pm:98, em:96, st:93, note:'Opulentes Meisterjahr. Petrus, Lafleur unerreicht. Reif, zugänglich früher als 2010. Legendär.', drink:'2022–2060' },
+  { y:2008, p:88, mg:88, es:88, pe:88, pm:88, em:87, st:85, note:'Unterschätzt und preiswert. Kühl, klassisch, trikbar. Strukturiert, jetzt auf Höhepunkt.', drink:'2022–2036' },
+  { y:2007, p:83, mg:83, es:82, pe:85, pm:84, em:83, st:95, note:'Schwieriges Rotweinjahr (Regen). Pessac-Léognan übertraf Médoc. Sauternes: außergewöhnlich (beste seit 2001).', drink:'Rot: trinken / Saut: 2025–2055' },
+  { y:2006, p:87, mg:87, es:87, pe:88, pm:87, em:87, st:88, note:'Solider Médoc-Jahrgang. Cab.Sauv. übertraf Merlot. Trikbar, kein Langläufer. Gut für Einsteiger.', drink:'2022–2034' },
+  { y:2005, p:96, mg:96, es:95, pe:96, pm:96, em:96, st:94, note:'Klassisch großartig. Perfektes Wetter. Langlebig für alle Regionen. Beide Ufer außergewöhnlich.', drink:'2023–2058' },
+  { y:2004, p:86, mg:86, es:86, pe:87, pm:87, em:87, st:86, note:'Zu Unrecht überschattet von 2003 und 2005. Klassisch, elegant. Selektiv kaufen, jetzt trinken.', drink:'2022–2032' },
+  { y:2003, p:90, mg:90, es:89, pe:92, pm:93, em:93, st:85, note:'Hitzejahr (Rekordtemperaturen). Atypisch, früh trikbar, wenig Finesse. Pomerol/St-Émilion stark, Médoc unregelmäßig.', drink:'Trinken jetzt / Pomerol: bis 2035' },
+  { y:2002, p:86, mg:86, es:85, pe:87, pm:85, em:85, st:87, note:'Verregnete Ernte. Médoc passabel. Rechtes Ufer enttäuschend. Pessac-Léognan hob sich ab.', drink:'2022–2030' },
+  { y:2001, p:88, mg:88, es:87, pe:88, pm:90, em:90, st:96, note:'Rechtes Ufer exzellent. Sauternes legendär (beste seit 1990). Médoc solide bis gut.', drink:'Rot: 2023–2035 / Saut: bis 2050+' },
+  { y:2000, p:96, mg:96, es:95, pe:95, pm:97, em:96, st:88, note:'Jahrtausendjahrgang. Links- und Rechts-Ufer außergewöhnlich. Teuer aber berechtigt. Langlebig.', drink:'2025–2060+' },
+  { y:1999, p:85, mg:85, es:84, pe:85, pm:87, em:86, st:89, note:'Solid, nicht aufregend. Merlot besser als Cabernet. Trikbar, kein Sammlerstück.', drink:'Trinken jetzt' },
+  { y:1998, p:87, mg:87, es:87, pe:88, pm:96, em:92, st:90, note:'Pomerol-Jahrgang schlechthin. Petrus magnificent. Médoc solide bis gut. Sauternes sehr gut.', drink:'Pom: bis 2040 / Médoc: trinken' },
+  { y:1997, p:80, mg:80, es:80, pe:82, pm:83, em:82, st:88, note:'Früh trikbar, weich, zugänglich. Wenig Lager-Potenzial. Heute größtenteils am Limit.', drink:'Trinken — spät' },
+  { y:1996, p:93, mg:94, es:91, pe:92, pm:87, em:88, st:88, note:'Klassischer Médoc-Jahrgang. Margaux überragend. Rechtes Ufer enttäuschte relativ. Lagerfähig.', drink:'2023–2045' },
+  { y:1995, p:90, mg:91, es:90, pe:90, pm:91, em:91, st:91, note:'Elegant und ausgewogen. Beide Ufer stark. Guter Trinkhorizont noch offen.', drink:'2022–2040' },
+  { y:1994, p:85, mg:85, es:84, pe:85, pm:86, em:85, st:84, note:'Verregnete Ernte. Enttäuschend nach 1990. Heute am Limit oder darüber.', drink:'Trinken — spät' },
+  { y:1993, p:79, mg:78, es:78, pe:79, pm:79, em:78, st:80, note:'Schlechtes Jahr. Wenige Ausnahmen. Meist am Ende.', drink:'Überschritten' },
+  { y:1992, p:76, mg:75, es:75, pe:78, pm:76, em:75, st:75, note:'Sehr schwaches Jahr. Regen. Vermeiden außer Ausnahmen.', drink:'Überschritten' },
+  { y:1991, p:74, mg:73, es:73, pe:75, pm:73, em:73, st:76, note:'Frost vernichtete große Teile. Ertrag minimal. Weine kaum noch zugänglich.', drink:'Überschritten' },
+  { y:1990, p:95, mg:95, es:94, pe:97, pm:98, em:97, st:98, note:'Reifes, opulentes Meisterstück. Hitzejahr. Pomerol und Sauternes auf absolutem Höchstniveau. Konzentriert, reichhaltig.', drink:'2022–2060' },
+  { y:1989, p:92, mg:93, es:91, pe:94, pm:96, em:95, st:96, note:'Außergewöhnlich heiß. Früh zugänglich, komplex. Legendär für Pomerol und Sauternes. Parker-Jahrgang.', drink:'2022–2055' },
+  { y:1988, p:90, mg:90, es:89, pe:91, pm:91, em:91, st:95, note:'Klassisch und tanninreich. Sauternes exzellent (mit 1989/90 Trilogie). Langlebig, noch nicht auf Höhepunkt.', drink:'2022–2048' },
+  { y:1987, p:79, mg:78, es:78, pe:80, pm:80, em:79, st:79, note:'Überschattet von 1988/89. Weine zum Trinken. Heute meist am Ende.', drink:'Überschritten' },
+  { y:1986, p:91, mg:91, es:90, pe:91, pm:88, em:88, st:92, note:'Klassischer Médoc. Tanninreich, langlebig. Rechtes Ufer unregelmäßig. Sauternes stark. Geduld erforderlich.', drink:'2022–2048' },
+  { y:1985, p:88, mg:88, es:87, pe:88, pm:90, em:90, st:87, note:'Elegant, zugänglich. Pomerol exzellent. Heute auf Höhepunkt — bald trinken.', drink:'Trinken jetzt' },
+  { y:1984, p:74, mg:73, es:73, pe:75, pm:74, em:73, st:72, note:'Kalt, schwach. Meiden. Heute sicher am Ende.', drink:'Überschritten' },
+  { y:1983, p:88, mg:95, es:87, pe:88, pm:87, em:87, st:95, note:'Margaux überragend (bester Jahrgang des 20. Jh. für diese Appellation). Sauternes legendär. Médoc gut aber ungleich.', drink:'Margaux: jetzt trinken / Saut: jetzt' },
+  { y:1982, p:98, mg:96, es:95, pe:95, pm:99, em:98, st:86, note:'DER JAHRGANG DES JAHRHUNDERTS. Pomerol (Pétrus) unerreicht. Robert Parkers Karriere-Jahrgang. Linkes Ufer außergewöhnlich.', drink:'2022–2055' },
+  { y:1981, p:83, mg:83, es:82, pe:83, pm:84, em:83, st:85, note:'Anständig aber bescheiden nach 1982. Heute größtenteils trikbar oder überschritten.', drink:'Trinken — spät' },
+  { y:1980, p:70, mg:70, es:69, pe:71, pm:70, em:70, st:75, note:'Schlechter Jahrgang. Vermeiden. Heute überschritten.', drink:'Überschritten' },
+];
+
+let vtSortCol = 0, vtSortDir = 1, vtFilter = 'all', vtColFilter = 'all';
+
+function avgScore(v) {
+  const vals = [v.p, v.mg, v.es, v.pe, v.pm, v.em, v.st].filter(x => x > 0);
+  return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
+}
+
+function vtQuality(v) {
+  const a = avgScore(v);
+  if (a >= 96) return 'leg';
+  if (a >= 90) return 'exc';
+  if (a >= 85) return 'vgood';
+  if (a >= 80) return 'good';
+  return 'poor';
+}
+
+function renderVintage() {
+  let data = vintages.filter(v => {
+    if (vtFilter === 'all') return true;
+    return vtQuality(v) === vtFilter;
+  });
+  data = [...data].sort((a, b) => {
+    const vals = [r => r.y, r => r.p, r => r.mg, r => r.es, r => r.pe, r => r.pm, r => r.em, r => r.st, r => avgScore(r)];
+    return (vals[vtSortCol](a) - vals[vtSortCol](b)) * vtSortDir;
+  });
+  const leftCols = [1, 2, 3, 4];
+  const rightCols = [5, 6];
+  const sautCols = [7];
+  document.querySelectorAll('#vtable th').forEach((th, i) => {
+    th.classList.toggle('sorted', i === vtSortCol);
+  });
+  const showLeft = vtColFilter === 'all' || vtColFilter === 'left';
+  const showRight = vtColFilter === 'all' || vtColFilter === 'right';
+  const showSaut = vtColFilter === 'all' || vtColFilter === 'saut';
+  document.querySelectorAll('.col-left').forEach(el => el.style.display = showLeft ? '' : 'none');
+  // Separate handling for th that appears in both groups
+  document.querySelectorAll('#vtable th[class*="col-left col-right"]').forEach(el => el.style.display = (showLeft || showRight) ? '' : 'none');
+  document.querySelectorAll('.col-saut').forEach(el => el.style.display = showSaut ? '' : 'none');
+
+  document.getElementById('vtbody').innerHTML = data.map(v => {
+    const avg = avgScore(v);
+    const ql = vtQuality(v);
+    const qlLabel = { leg: '★ Legendär', exc: 'Exzellent', vgood: 'Sehr gut', good: 'Gut', poor: 'Schwach' }[ql];
+    const qlColor = { leg: 'var(--goldl)', exc: '#E0A060', vgood: '#B09060', good: '#808088', poor: 'var(--dim)' }[ql];
+    return `<tr data-ql="${ql}">
+      <td><span class="yr-cell">${v.y}</span><br><span style="font-size:9px;color:${qlColor};letter-spacing:.15em;">${qlLabel}</span></td>
+      <td class="col-left col-right">${scBadge(v.p)}</td>
+      <td class="col-left">${scBadge(v.mg)}</td>
+      <td class="col-left">${scBadge(v.es)}</td>
+      <td class="col-left">${scBadge(v.pe)}</td>
+      <td class="col-right">${scBadge(v.pm)}</td>
+      <td class="col-right">${scBadge(v.em)}</td>
+      <td class="col-saut">${scBadge(v.st)}</td>
+      <td>${scBadge(avg)}</td>
+      <td><span class="vintage-note">${v.note}<br><span style="color:var(--gold);font-size:9px;">🍷 ${v.drink}</span></span></td>
+    </tr>`;
+  }).join('');
+  // Re-apply column visibility to TD
+  document.querySelectorAll('#vtbody .col-left').forEach(el => el.style.display = showLeft ? '' : 'none');
+  document.querySelectorAll('#vtbody td:nth-child(2)').forEach(el => el.style.display = (showLeft || showRight) ? '' : 'none');
+  document.querySelectorAll('#vtbody .col-right:not(:nth-child(2))').forEach(el => el.style.display = showRight ? '' : 'none');
+  document.querySelectorAll('#vtbody .col-saut').forEach(el => el.style.display = showSaut ? '' : 'none');
+}
+
+function filterVintage(f, btn) {
+  vtFilter = f;
+  document.querySelectorAll('#page-vintage .filter-bar .fbtn').forEach(b => {
+    if (['all','leg','exc','vgood','good','poor'].includes(b.getAttribute('onclick').match(/'(\w+)'/)?.[1])) b.classList.remove('on');
+  });
+  btn.classList.add('on');
+  renderVintage();
+}
+function setVCol(f, btn) {
+  vtColFilter = f;
+  document.querySelectorAll('#page-vintage .filter-bar .fbtn').forEach(b => {
+    if (['all','left','right','saut'].includes(b.getAttribute('onclick').match(/'(\w+)'/)?.[1])) b.classList.remove('on');
+  });
+  btn.classList.add('on');
+  renderVintage();
+}
+function sortVt(col) {
+  if (vtSortCol === col) vtSortDir *= -1; else { vtSortCol = col; vtSortDir = -1; }
+  renderVintage();
+}
+renderVintage();
+
+// =============================================
+// 1855 GCC MEDOC DATA (from gcc-1855.fr official PDF)
+// =============================================
+const gcc = [
+  // PREMIERS CRUS
+  { cru:'1', name:'Château Lafite Rothschild', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Quintessenz der Eleganz. Cedar, Bleistift, florales Bouquet. Baron Eric de Rothschild. Langlebigster der Premiers.' },
+  { cru:'1', name:'Château Latour', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Der Koloss von Pauillac. L\'Enclos-Monopol-Weinberg. Tiefste Tannine, größte Langlebigkeit. Seit 2012 kein En Primeur.' },
+  { cru:'1', name:'Château Margaux', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'La Grande Dame. Parfum und Finesse. Weißer Palladio-Tempel. Pavillon Blanc als trockener Weißwein-Icon.' },
+  { cru:'1', name:'Château Mouton Rothschild', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'1973 von 2ème zu 1er aufgestuft (einzige Änderung). Berühmte Künstler-Labels (Picasso, Warhol, Bacon). Philippe de Rothschild.' },
+  { cru:'1', name:'Château Haut-Brion', app:'Pessac (Graves/Pessac-Léognan)', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Einziger Nicht-Médoc in der 1855-Klassifikation. Roter und weißer Haut-Brion. Dillon-Familie. Tabak, Teer, Trüffel.' },
+  // SECONDS CRUS
+  { cru:'2', name:'Château Rauzan-Ségla', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Seit Chanel-Übernahme (1994) stark verbessert. Eleganter Margaux-Stil mit moderner Präzision.' },
+  { cru:'2', name:'Château Rauzan-Gassies', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Benachbart zu Ségla. Familienbesitz Quié. Moderner Wandel seit 2000er.' },
+  { cru:'2', name:'Château Léoville Las Cases', app:'Saint-Julien', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Super Second. Grand Enclos nahe Latour. Rivalisiert mit Premiers. Delon-Familie.' },
+  { cru:'2', name:'Château Léoville-Poyferré', app:'Saint-Julien', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Stark modernisiert. Merlot-Cuvée Moulin Riche. Überzeugt seit den 1990ern konstant.' },
+  { cru:'2', name:'Château Léoville Barton', app:'Saint-Julien', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Barton-Familie seit 1821. Kein eigenes Château. Traditionell, exzellentes Preis-Leistungs-Verhältnis. Super Second.' },
+  { cru:'2', name:'Château Durfort-Vivens', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Biodynamisch zertifiziert. Gonzague Lurton. Delikat, femininer Margaux-Stil.' },
+  { cru:'2', name:'Château Gruaud Larose', app:'Saint-Julien', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Malleret-Familie. Klassisch zugänglich, "le vin des rois, le roi des vins". Verlässlich.' },
+  { cru:'2', name:'Château Lascombes', app:'Margaux', grapes:'Merlot, Cabernet Sauvignon, Petit Verdot', note:'Stark verbessert seit 2000. Heute eines der besten Margaux. Amerikanische Investoren.' },
+  { cru:'2', name:'Château Brane-Cantenac', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Carmenère', note:'Lurton-Familie. Seidig, elegant, klassischer Margaux. Historisch bedeutendes Gut.' },
+  { cru:'2', name:'Château Pichon-Baron', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot', note:'Auch: Pichon-Longueville Baron. AXA Millésimes. Kraft und Struktur. Turm-Château ikonisch.' },
+  { cru:'2', name:'Château Pichon Longueville Comtesse de Lalande', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'La Comtesse. Feminine Eleganz. Super Second. May-Eliane de Lencquesaing-Ära legendär.' },
+  { cru:'2', name:'Château Ducru-Beaucaillou', app:'Saint-Julien', grapes:'Cabernet Sauvignon, Merlot', note:'Super Second. Borie-Familie. Klassisch, verläßlich, "schöner Kiesel". Victorian-Türme.' },
+  { cru:'2', name:'Château Cos d\'Estournel', app:'Saint-Estèphe', grapes:'Cabernet Sauvignon, Merlot', note:'Pagoden-Architektur. Super Second. Michel Reybier. Würze, Muskat, exotisch. Rivals premiers.' },
+  { cru:'2', name:'Château Montrose', app:'Saint-Estèphe', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Bouygues-Brüder. Kraftvoll, maskulin, tanninreich. Langlebigster Saint-Estèphe.' },
+  // TROISIÈMES CRUS
+  { cru:'3', name:'Château Kirwan', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Schröder & Schyler (Negociant). Verbessert. Parfumiert. Japanische Partnerschaft.' },
+  { cru:'3', name:'Château d\'Issan', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot', note:'Mittelalterliches Wasserschloss. Cruse-Familie. "Regum mensis ararisque deorum." Eleganz.' },
+  { cru:'3', name:'Château Lagrange', app:'Saint-Julien', grapes:'Cabernet Sauvignon, Merlot, Petit Verdot', note:'Suntory (Japan) seit 1983 — enorme Investition. Stark modernisiert, verlässlich top.' },
+  { cru:'3', name:'Château Langoa Barton', app:'Saint-Julien', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Barton-Familie seit 1821. Teilen Chai mit Léoville. Zugänglich, charmant.' },
+  { cru:'3', name:'Château Giscours', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Kräftig für Margaux. Tari-Familie. Großes Weinberg-Areal. Gut seit 1990er.' },
+  { cru:'3', name:'Château Malescot Saint-Exupéry', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Zuger-Familie. Duftend, jugendlich frisch. Gutes Preis-Leistungs-Verhältnis.' },
+  { cru:'3', name:'Château Boyd-Cantenac', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Guillemet-Familie. Traditionell. Reife Tannine. Teilt Chai mit Pouget.' },
+  { cru:'3', name:'Château Cantenac Brown', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot', note:'Tudor-Château. Simon Halabi. Kraft und Würze. Moderner Stil seit 2010.' },
+  { cru:'3', name:'Château Palmer', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Petit Verdot', note:'Super Third. Simmern/Mähler-Besse. Rivalisiert mit Premiers. Alter Ego als Zweitwein.' },
+  { cru:'3', name:'Château La Lagune', app:'Haut-Médoc', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Nächstes klassifiziertes Gut zur Stadt. Champagne Ayala. Biodynamisch. Zugänglich.' },
+  { cru:'3', name:'Château Desmirail', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Denis Lurton. Kleines Gut. Verfeinert, seidig.' },
+  { cru:'3', name:'Château Calon-Ségur', app:'Saint-Estèphe', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Herz auf dem Etikett (Ségur-Grafen). Klassisch, strukturiert. Jüngst stark verbessert.' },
+  { cru:'3', name:'Château Ferrière', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Petit Verdot', note:'Kleinstes 3ème Cru. Claire Villars. Exklusiv, konzentriert.' },
+  { cru:'3', name:'Château Marquis d\'Alesme Becker', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Petit Verdot', note:'Perrodo-Familie. Komplett renoviert. Aufsteigend, modern interpretiert.' },
+  // QUATRIÈMES CRUS
+  { cru:'4', name:'Château Saint-Pierre', app:'Saint-Julien', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Henri Martin (Gloria-Besitzer). Kleinstes Saint-Julien. Konzentriert, traditionell.' },
+  { cru:'4', name:'Château Talbot', app:'Saint-Julien', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Größtes klassifiziertes Saint-Julien. Cordier/Bignon. Verlässlich, zugänglich, Preis-Leistung.' },
+  { cru:'4', name:'Château Branaire-Ducru', app:'Saint-Julien', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Maroteaux-Familie. Elegant, Gewürznoten, zugänglich. Gut seit 1995.' },
+  { cru:'4', name:'Château Duhart-Milon', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot', note:'Rothschild-Besitz (Lafite-Nachbar). Teilt Winemaking-Know-how. Aufsteigend.' },
+  { cru:'4', name:'Château Pouget', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Guillemet-Familie. Kleines Gut. Teilt Chai mit Boyd-Cantenac.' },
+  { cru:'4', name:'Château La Tour Carnet', app:'Haut-Médoc', grapes:'Merlot, Cabernet Sauvignon, Cab. Franc, Petit Verdot', note:'Bernard Magrez. Mittelalterlicher Turm, 12. Jh. Komplett renoviert.' },
+  { cru:'4', name:'Château Lafon-Rochet', app:'Saint-Estèphe', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Tesserons. Gelbe Fassade. Aufsteigend. Preis-Leistungs-Geheimtipp.' },
+  { cru:'4', name:'Château Beychevelle', app:'Saint-Julien', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Admiral-Château. Schiff auf Etikett (Admiral d\'Epernon). LVMH-Beteiligung. Elegant.' },
+  { cru:'4', name:'Château Prieuré-Lichine', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Petit Verdot, Cab. Franc', note:'Alexis Lichine (Weinschriftsteller) gegründet. Heute Ballan-Familie. Touristen-freundlich.' },
+  { cru:'4', name:'Château Marquis de Terme', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Petit Verdot, Cab. Franc', note:'Senclat-Familie. Moderner Ausbau. Tiefdunkel, konzentriert. Aufsteigend.' },
+  // CINQUIÈMES CRUS
+  { cru:'5', name:'Château Pontet-Canet', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Super Fifth. Biodynamisch zertifiziert. Tesseron. Oft besser als Seconds. Jahrgänge 2010/2012 legendär.' },
+  { cru:'5', name:'Château Batailley', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Castejan. Zugänglich, fruchtig. Bestes Preis-Leistungs-Verhältnis der Pauillacs.' },
+  { cru:'5', name:'Château Haut-Batailley', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Borie-Familie (Ducru). Delikat, eleganter Pauillac-Stil. Früh zugänglich.' },
+  { cru:'5', name:'Château Grand-Puy-Lacoste', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot', note:'Borie-Familie. Klassisch Pauillac. Blackcurrant, Tabak. Super Fifth, großer Trinkspaß.' },
+  { cru:'5', name:'Château Grand-Puy Ducasse', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot', note:'CA Grands Millesimes. Stadtlage Pauillac. Verbessert. Zugänglicher Stil.' },
+  { cru:'5', name:'Château Lynch-Bages', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Super Fifth — Publikumsliebling weltweit. Cazes-Familie. "Lynch-Bages du Peuple". Opulent.' },
+  { cru:'5', name:'Château Lynch-Moussas', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot', note:'Casteja-Familie. Solide, zugänglich. Preiswert im Vergleich zu Lynch-Bages.' },
+  { cru:'5', name:'Château Dauzac', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot', note:'MAIF-Versicherung. André Lurton verbesserte ab 1992. Aromatisch, modern.' },
+  { cru:'5', name:'Château d\'Armailhac', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Rothschild (Mouton-Nachbar). Früher Mouton Baronne Philippe. Fruchtig, früh trikbar.' },
+  { cru:'5', name:'Château du Tertre', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Hügelterrain. Ginestet/Albada Jelgersma. Ruhig, unterschätzt. Rein, delikat.' },
+  { cru:'5', name:'Château Haut-Bages Libéral', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot', note:'Claire Villars. Stark aufgestiegen. Nahe Latour. Dunkle Frucht, Kraft.' },
+  { cru:'5', name:'Château Pédesclaux', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Juglar-Roux. Komplette Renovation. Modern, konzentriert.' },
+  { cru:'5', name:'Château Belgrave', app:'Haut-Médoc', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'CVBG (Dourthe). Saint-Laurent. Verlässlich, zugänglich. Gutes Preis-Leistungs-Verhältnis.' },
+  { cru:'5', name:'Château de Camensac', app:'Haut-Médoc', grapes:'Cabernet Sauvignon, Merlot', note:'Merlaut-Familie. Saint-Laurent. Verbessert. Strukturiert.' },
+  { cru:'5', name:'Château Cos Labory', app:'Saint-Estèphe', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Audoy-Familie. Nahe Cos d\'Estournel. Preiswert, strukturiert, unterschätzt.' },
+  { cru:'5', name:'Château Clerc Milon', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Rothschild. Mouton-Nachbar. Fruchtig, floral, modern zugänglich.' },
+  { cru:'5', name:'Château Croizet-Bages', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot', note:'Quié-Familie. Klassisch, verbessert. Bescheiden im Preis für Pauillac.' },
+  { cru:'5', name:'Château Cantemerle', app:'Haut-Médoc', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'1856 nachträglich ergänzt (versehentlich ausgelassen). SMA-Besitz. Zugänglich, floral, preiswert.' },
+];
+
+let gccFilter = 'all', gccAppFilter = 'all', gccSortCol = 0, gccSortDir = 1;
+
+const cruLabel = { '1':'1er Cru', '2':'2ème Cru', '3':'3ème Cru', '4':'4ème Cru', '5':'5ème Cru' };
+const cruColor = { '1':'#C9A84C', '2':'#A07838', '3':'#805028', '4':'#603818', '5':'#442818' };
+
+function renderGCC() {
+  let data = gcc.filter(c => {
+    const search = document.getElementById('gccSearch')?.value.toLowerCase() || '';
+    const matchCru = gccFilter === 'all' || c.cru === gccFilter;
+    const matchApp = gccAppFilter === 'all' || c.app.includes(gccAppFilter);
+    const matchSearch = !search || c.name.toLowerCase().includes(search) || c.app.toLowerCase().includes(search) || c.note.toLowerCase().includes(search);
+    return matchCru && matchApp && matchSearch;
+  });
+  data = [...data].sort((a, b) => {
+    const keys = ['cru','name','app'];
+    const av = keys[gccSortCol] === 'cru' ? parseInt(a.cru) : a[keys[gccSortCol]];
+    const bv = keys[gccSortCol] === 'cru' ? parseInt(b.cru) : b[keys[gccSortCol]];
+    if (typeof av === 'number') return (av - bv) * gccSortDir;
+    return av.localeCompare(bv) * gccSortDir;
+  });
+  document.getElementById('gcctbody').innerHTML = data.map(c => `
+    <tr>
+      <td><span style="display:inline-block;padding:3px 10px;background:${cruColor[c.cru]};color:var(--cream);font-size:9px;letter-spacing:.2em;white-space:nowrap;">${cruLabel[c.cru]}</span></td>
+      <td style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream);font-weight:400;">${c.name}</td>
+      <td><span style="font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);">${c.app}</span></td>
+      <td style="font-size:10.5px;color:var(--dim);">${c.grapes}</td>
+      <td style="font-size:10.5px;color:var(--dim);max-width:260px;line-height:1.55;">${c.note}</td>
+    </tr>`).join('');
+}
+
+function filterGCC(f, btn) {
+  gccFilter = f; gccAppFilter = 'all';
+  document.querySelectorAll('#page-class1855 .filter-bar .fbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderGCC();
+}
+function filterGCCapp(f, btn) {
+  gccAppFilter = f; gccFilter = 'all';
+  document.querySelectorAll('#page-class1855 .filter-bar .fbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderGCC();
+}
+function filterGCCsearch() { renderGCC(); }
+function sortGCC(col) {
+  if (gccSortCol === col) gccSortDir *= -1; else { gccSortCol = col; gccSortDir = 1; }
+  renderGCC();
+}
+renderGCC();
+
+// =============================================
+// SAUTERNES 1855 DATA (from gcc-1855.fr official PDF)
+// =============================================
+const sautData = [
+  // PREMIER CRU SUPERIEUR
+  { cru:'sup', name:'Château d\'Yquem', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc', note:'Premier Cru Supérieur — einzige dieser Auszeichnung weltweit. LVMH. Legendäre Konzentration, 100-Jahres-Haltbarkeit. Botrytis-Perfektion.' },
+  // PREMIERS CRUS
+  { cru:'1er', name:'Château La Tour Blanche', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'1er Cru. Heute staatliche Weinschule (Lycée viticole). Üppig, tropische Frucht.' },
+  { cru:'1er', name:'Château Lafaurie-Peyraguey', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc', note:'1er Cru. Seit 2018 Relais & Châteaux Hotel. Hermès-Eigentümer. Konzentriert, komplex.' },
+  { cru:'1er', name:'Clos Haut-Peyraguey', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc', note:'1er Cru. Bernard Lamothe. Kleinste der 1er Crus. Präzise, edel, langlebig.' },
+  { cru:'1er', name:'Château de Rayne-Vigneau', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc', note:'1er Cru. Edelstein-Boden (Achat, Onyx). Kreymborg/CA Grands Millesimes. Elegant.' },
+  { cru:'1er', name:'Château Suduiraut', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc', note:'1er Cru. Versailles-Gärten (Le Nôtre). AXA Millésimes. Ananas, Mango, opulent.' },
+  { cru:'1er', name:'Château Coutet', app:'Barsac', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'1er Cru. Ältestes Weingut Barsac (14. Jh.). Baly-Familie. Delikat, Zitrus-Frische. Cuvée Madame rarissime.' },
+  { cru:'1er', name:'Château Climens', app:'Barsac', grapes:'Sémillon', note:'1er Cru. Bester Barsac. Bérénice Lurton (biodynamisch). Reinsortiger Sémillon. Nervös, komplex, brillant.' },
+  { cru:'1er', name:'Château Guiraud', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc', note:'1er Cru. Biodynamisch zertifiziert (als einziges 1er Cru). 4 Eigentümer. Reichhaltig, modern.' },
+  { cru:'1er', name:'Château Rieussec', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'1er Cru. Rothschild-Familie. Yquem-Nachbar. Opulent, mächtig. R trocken als Cuvée.' },
+  { cru:'1er', name:'Château Rabaud-Promis', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'1er Cru. Lanneluc-Familie. Klassisch, strukturiert, konservativ.' },
+  { cru:'1er', name:'Château Sigalas-Rabaud', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc', note:'1er Cru. Sigalas-Familie. Elegant, rassig. Kleine Produktion.' },
+  // SECONDS CRUS
+  { cru:'2eme', name:'Château de Myrat', app:'Barsac', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'2ème Cru. Pontac-Familie. Reben 1976 gerodet, 1990 wieder gepflanzt. Restauriert.' },
+  { cru:'2eme', name:'Château Doisy Daëne', app:'Barsac', grapes:'Sémillon, Sauvignon Blanc', note:'2ème Cru. Denis Dubourdieu-Familie (Weinwissenschaft-Legende). Modern, präzise.' },
+  { cru:'2eme', name:'Château Doisy-Dubroca', app:'Barsac', grapes:'Sémillon', note:'2ème Cru. Micro-Gut. Climens-Nachbar. Miniaturproduktion.' },
+  { cru:'2eme', name:'Château Doisy-Védrines', app:'Barsac', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'2ème Cru. Casteja-Familie. Zugänglich, fruchtig, opulent.' },
+  { cru:'2eme', name:'Château d\'Arche', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc', note:'2ème Cru. Perromat-Familie. Großes Gut, zugänglich, Preis-Leistung.' },
+  { cru:'2eme', name:'Château Filhot', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'2ème Cru. De Vaucelles-Familie. Trockener Stil unter den Süßweinen. Elegant.' },
+  { cru:'2eme', name:'Château Broustet', app:'Barsac', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'2ème Cru. Laulan-Familie. Klassisch Barsac-Stil.' },
+  { cru:'2eme', name:'Château Nairac', app:'Barsac', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'2ème Cru. Heeter-Familie (US-Eigentümer). Tom Heeter renovierte 1972. Komplex.' },
+  { cru:'2eme', name:'Château Caillou', app:'Barsac', grapes:'Sémillon, Sauvignon Blanc', note:'2ème Cru. Pierre Jean Familie. Stabil, zugänglich.' },
+  { cru:'2eme', name:'Château Suau', app:'Barsac', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'2ème Cru. Biarnès-Familie. Kleine Produktion.' },
+  { cru:'2eme', name:'Château de Malle', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'2ème Cru. Lur Saluces-Familie. Historisches Louis-XIII.-Schloss. Zugänglich, delikat.' },
+  { cru:'2eme', name:'Château Romer', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'2ème Cru. Selten auf dem Markt. Fargues-Region.' },
+  { cru:'2eme', name:'Château Romer-du-Hayot', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'2ème Cru. Du Hayot-Familie. Fargues-Region. Zugänglich.' },
+  { cru:'2eme', name:'Château Lamothe', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'2ème Cru. Despujols-Familie. Sehr kleine Produktion.' },
+  { cru:'2eme', name:'Château Lamothe-Guignard', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'2ème Cru. Guignard-Familie. Stark verbessert seit 1980er. Modern, fruchtig.' },
+];
+
+const sautCruLabel = { sup:'Premier Cru Supérieur', '1er':'1er Cru', '2eme':'2ème Cru' };
+const sautCruColor = { sup:'#C9A84C', '1er':'#9B6828', '2eme':'#6B4818' };
+
+let sautCruFilter = 'all', sautAppFilter_ = 'all', sautSortCol = 0, sautSortDir = 1;
+
+function renderSaut() {
+  let data = sautData.filter(c => {
+    const search = document.getElementById('sautSearch')?.value.toLowerCase() || '';
+    const matchCru = sautCruFilter === 'all' || c.cru === sautCruFilter;
+    const matchApp = sautAppFilter_ === 'all' || c.app === sautAppFilter_;
+    const matchSearch = !search || c.name.toLowerCase().includes(search) || c.note.toLowerCase().includes(search);
+    return matchCru && matchApp && matchSearch;
+  });
+  data = [...data].sort((a, b) => {
+    const order = { sup: 0, '1er': 1, '2eme': 2 };
+    const keys = [r => order[r.cru], r => r.name, r => r.app];
+    const av = keys[sautSortCol](a), bv = keys[sautSortCol](b);
+    if (typeof av === 'number') return (av - bv) * sautSortDir;
+    return av.localeCompare(bv) * sautSortDir;
+  });
+  document.getElementById('sauttbody').innerHTML = data.map(c => `
+    <tr>
+      <td><span style="display:inline-block;padding:3px 10px;background:${sautCruColor[c.cru]};color:var(--dark);font-size:9px;letter-spacing:.2em;font-weight:600;white-space:nowrap;">${sautCruLabel[c.cru]}</span></td>
+      <td style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream);font-weight:400;">${c.name}</td>
+      <td><span style="font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);">${c.app}</span></td>
+      <td style="font-size:10.5px;color:var(--dim);">${c.grapes}</td>
+      <td style="font-size:10.5px;color:var(--dim);max-width:260px;line-height:1.55;">${c.note}</td>
+    </tr>`).join('');
+}
+function filterSaut(f, btn) {
+  sautCruFilter = f; sautAppFilter_ = 'all';
+  document.querySelectorAll('#page-sauternes .filter-bar:first-of-type .fbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderSaut();
+}
+function filterSautApp(f, btn) {
+  sautAppFilter_ = f; sautCruFilter = 'all';
+  document.querySelectorAll('#page-sauternes .filter-bar:first-of-type .fbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderSaut();
+}
+function filterSautSearch() { renderSaut(); }
+function sortSaut(col) {
+  if (sautSortCol === col) sautSortDir *= -1; else { sautSortCol = col; sautSortDir = 1; }
+  renderSaut();
+}
+renderSaut();
+
+// SAUTERNES VINTAGE TABLE
+const sautVint = [
+  { y:2024, s:87, bot:'Mittelmäßig — Late botrytis nach Regen', note:'Trotz Widrigkeiten solide Botrytis Ende Oktober. Frisch, säurebetont.' },
+  { y:2023, s:90, bot:'Gut — Unregelmäßige Botrytis', note:'Gute Qualität. Frisch, weniger opulent als 2021. Trikbar und elegant.' },
+  { y:2022, s:96, bot:'Ausgezeichnet — Konzentriert', note:'Extrem wenig Menge (Frost + Trockenheit). Was gemacht wurde: brillant konzentriert.' },
+  { y:2021, s:85, bot:'Durchschnittlich', note:'Frost vernichtete große Teile. Wenige, gute Weine.' },
+  { y:2020, s:90, bot:'Gut — Trockenes Jahr', note:'Wenig Botrytis. Konzentrierte, elegante Weine durch Eintrocknung.' },
+  { y:2019, s:93, bot:'Sehr gut — Herbst-Botrytis', note:'Späte, intensive Botrytis. Reichhaltig, komplex. Exzellente Qualität.' },
+  { y:2018, s:91, bot:'Gut', note:'Warmes Jahr. Opulente, süße Weine. Etwas weniger Frische.' },
+  { y:2017, s:88, bot:'Frost-bedingt wenig Menge', note:'Was blieb: hohe Qualität. Teure Rarität.' },
+  { y:2016, s:88, bot:'Gut', note:'Solide, nicht herausragend. Trinkbar, ohne Komplexität der großen Jahre.' },
+  { y:2015, s:92, bot:'Sehr gut', note:'Warme Herbst-Botrytis. Reichhaltig, süß, opulent. Empfehlenswert.' },
+  { y:2014, s:87, bot:'Gut', note:'Sauber, klassisch. Nicht grandios aber verlässlich.' },
+  { y:2013, s:85, bot:'Frost und Regen — wenig', note:'Kleine Menge. Solide, frisch, leichter Stil.' },
+  { y:2012, s:86, bot:'Gut', note:'Anständige Botrytis. Frisch, ohne Tiefe der Spitzenjahrgänge.' },
+  { y:2011, s:94, bot:'Sehr gut — Spät und irregulär', note:'Spät aber brilliant. Delikat, elegant, frisch. Unterbewertetes Sauternes-Jahr.' },
+  { y:2010, s:96, bot:'Ausgezeichnet', note:'Fantastisch reich und konzentriert. Tiefe und Frische in Harmonie.' },
+  { y:2009, s:93, bot:'Sehr gut — Üppig', note:'Reichhaltige, opulente Weine. Früher trikbar, weniger Eleganz als 2010.' },
+  { y:2008, s:85, bot:'Durchschnittlich', note:'Solide. Frisch. Wenig Botrytis-Tiefe.' },
+  { y:2007, s:95, bot:'Ausgezeichnet — Perfekte Botrytis', note:'Bestes Sauternes seit 2001. Perfekte Bedingungen. Hohe Säure + Süße = Brillanz.' },
+  { y:2006, s:88, bot:'Gut', note:'Anständig. Trikbar, ohne Komplexität der Spitzenjahre.' },
+  { y:2005, s:94, bot:'Sehr gut', note:'Klassisch, reich, komplex. Langlebig. Empfohlen.' },
+  { y:2004, s:86, bot:'Gut', note:'Solide. Frisch. Früh zugänglich.' },
+  { y:2003, s:85, bot:'Schwach — Hitzejahr vernichtete Botrytis', note:'Kein Botrytis = wenig Charakter. Einige Güter machten keinen edelsüßen Wein (Yquem, Rieussec etc.).' },
+  { y:2002, s:87, bot:'Gut', note:'Solide, frisch. Gutes Preis-Leistungs-Verhältnis.' },
+  { y:2001, s:96, bot:'Ausgezeichnet — Beste seit 1990', note:'Perfekte Botrytis-Bedingungen. Langlebig, tiefgründig, brilliant. Eines der besten Jahrzehnte.' },
+  { y:2000, s:88, bot:'Gut', note:'Solide, zugänglich. Nicht auf 1999-Niveau.' },
+  { y:1999, s:89, bot:'Sehr gut', note:'Gute Botrytis. Eleganz und Frische. Preiswert.' },
+  { y:1998, s:90, bot:'Sehr gut', note:'Konzentriert, opulent. Näher an 1997 als 2001-Stil.' },
+  { y:1997, s:88, bot:'Gut', note:'Anständig, früh zugänglich, etwas einfach.' },
+  { y:1996, s:88, bot:'Gut', note:'Frisch, elegant. Trikbar.' },
+  { y:1995, s:91, bot:'Sehr gut', note:'Reich, komplex. Gut gelagert noch exzellent.' },
+  { y:1994, s:84, bot:'Durchschnittlich', note:'Regen störte Botrytis. Solide, wenig Tiefe.' },
+  { y:1993, s:80, bot:'Schwach', note:'Regen. Wenig Edelfäule. Schwaches Jahr.' },
+  { y:1992, s:75, bot:'Schwach', note:'Sehr schwach. Meiden.' },
+  { y:1991, s:76, bot:'Schwach', note:'Frost. Wenig Produktion. Schwach.' },
+  { y:1990, s:98, bot:'Außergewöhnlich — Perfektion', note:'Mit 1989 die Dekade der Sauternes-Größe. Konzentriert, komplex, endlose Langlebigkeit.' },
+  { y:1989, s:96, bot:'Außergewöhnlich', note:'Heiß, reich. Opulente, barocke Süße. Grandiose Reifeentwicklung.' },
+  { y:1988, s:95, bot:'Ausgezeichnet', note:'Mit 1989/1990 die Trilogie. Elegant, frisch, langlebig. Klassisch edelsüß.' },
+  { y:1987, s:79, bot:'Schwach', note:'Kalt, wenig Botrytis. Meiden.' },
+  { y:1986, s:92, bot:'Sehr gut', note:'Reiche Botrytis. Opulent. Jetzt trinken.' },
+  { y:1985, s:87, bot:'Gut', note:'Solide. Zugänglich. Heute trinken.' },
+  { y:1984, s:72, bot:'Schwach', note:'Schlechtes Jahr. Meiden.' },
+  { y:1983, s:95, bot:'Ausgezeichnet', note:'Legendäres Sauternes-Jahr. Yquem absolut brillant. Jetzt auf Höhepunkt.' },
+  { y:1982, s:86, bot:'Gut', note:'Solide für Sauternes. Cabernet dominierte dieses Jahr. Rot > Weiß.' },
+  { y:1981, s:85, bot:'Gut', note:'Anständig, trikbar.' },
+  { y:1980, s:75, bot:'Durchschnittlich', note:'Wenig Botrytis. Schwaches Sauternes-Jahr.' },
+];
+
+let vSautSortCol = 0, vSautSortDir = -1;
+
+function renderVSaut(data) {
+  document.getElementById('vsauttbody').innerHTML = data.map(v => {
+    const cls = sc(v.s);
+    const botColor = v.s >= 94 ? 'var(--goldl)' : v.s >= 88 ? '#C0A060' : v.s >= 83 ? '#909060' : 'var(--dim)';
+    return `<tr>
+      <td><span class="yr-cell">${v.y}</span></td>
+      <td>${scBadge(v.s)}</td>
+      <td style="font-size:10.5px;color:${botColor};">${v.bot}</td>
+      <td style="font-size:10.5px;color:var(--dim);max-width:300px;line-height:1.55;">${v.note}</td>
+    </tr>`;
+  }).join('');
+}
+
+function sortVSaut(col) {
+  if (vSautSortCol === col) vSautSortDir *= -1; else { vSautSortCol = col; vSautSortDir = -1; }
+  const keys = [v => v.y, v => v.s];
+  let data = [...sautVint].sort((a, b) => (keys[Math.min(col, 1)](a) - keys[Math.min(col, 1)](b)) * vSautSortDir);
+  renderVSaut(data);
+}
+renderVSaut([...sautVint].sort((a, b) => b.y - a.y));
+</script>
+</body>
+</html>
