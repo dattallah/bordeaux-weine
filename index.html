@@ -6,19 +6,19 @@
 <title>Bordeaux — Guide des Grands Vins</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bx:#6B1A2A;--bxl:#8B2A3A;--bxd:#3D0A14;--gold:#C9A84C;--goldl:#E8C97A;--cream:#F5EFE0;--creamd:#C8BEA0;--dark:#0F0608;--darkm:#160A0D;--darkc:#1C0C10;--darke:#220E13;--txt:#E8E0CC;--dim:#8A8070;--div:rgba(201,168,76,0.18);}
+:root{--bx:#8A2438;--bxl:#A83A50;--bxd:#5C1524;--gold:#8F6A1E;--goldl:#A87F2E;--cream:#2B1116;--creamd:#5C4A3E;--dark:#FBF7EE;--darkc:#FFFFFF;--surface2:#F6EEE1;--on-bx:#F8F1E4;--txt:#4A3830;--dim:#82705F;--div:rgba(122,31,45,0.16);}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:'Montserrat',sans-serif;background:var(--dark);color:var(--txt);font-size:12.5px;line-height:1.6;}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:center;align-items:center;gap:0;background:rgba(12,5,7,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--div);}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:center;align-items:center;gap:0;background:rgba(251,247,238,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--div);}
 .nav-item{padding:14px 18px;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--dim);text-decoration:none;cursor:pointer;transition:color .25s,background .25s;border-right:1px solid var(--div);}
 .nav-item:first-child{border-left:1px solid var(--div);}
-.nav-item:hover,.nav-item.active{color:var(--goldl);background:rgba(201,168,76,0.06);}
+.nav-item:hover,.nav-item.active{color:var(--gold);background:rgba(201,168,76,0.1);}
 
 /* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% -10%,#4A0E1A 0%,#1A0408 50%,var(--dark) 100%);}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% -10%,#F3DCE0 0%,#FBF3E9 45%,var(--dark) 100%);}
 .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:220px;background:linear-gradient(transparent,var(--dark));pointer-events:none;}
 .hero-badge{font-size:10px;letter-spacing:.55em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;opacity:0;animation:fu .9s ease forwards .3s;}
 .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(72px,13vw,150px);font-weight:300;letter-spacing:.07em;line-height:.88;color:var(--cream);opacity:0;animation:fu .9s ease forwards .6s;}
@@ -40,10 +40,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content
 /* FILTER BAR */
 .filter-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;align-items:center;}
 .filter-bar label{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-right:4px;}
-.fbtn{font-size:9px;letter-spacing:.25em;text-transform:uppercase;padding:7px 14px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--dim);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;border-radius:1px;}
-.fbtn:hover,.fbtn.on{background:var(--bx);border-color:var(--bxl);color:var(--cream);}
-.fbtn.gold-active{background:var(--gold);border-color:var(--gold);color:var(--dark);}
-input[type=text].fsearch{font-size:11px;padding:7px 14px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:var(--txt);font-family:'Montserrat',sans-serif;outline:none;min-width:200px;border-radius:1px;}
+.fbtn{font-size:9px;letter-spacing:.25em;text-transform:uppercase;padding:7px 14px;border:1px solid rgba(90,30,20,.16);background:transparent;color:var(--dim);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;border-radius:1px;}
+.fbtn:hover,.fbtn.on{background:var(--bx);border-color:var(--bxl);color:var(--on-bx);}
+.fbtn.gold-active{background:var(--gold);border-color:var(--gold);color:var(--on-bx);}
+input[type=text].fsearch{font-size:11px;padding:7px 14px;border:1px solid rgba(90,30,20,.16);background:#FFFFFF;color:var(--txt);font-family:'Montserrat',sans-serif;outline:none;min-width:200px;border-radius:1px;}
 input[type=text].fsearch::placeholder{color:var(--dim);}
 input[type=text].fsearch:focus{border-color:var(--gold);}
 
@@ -52,23 +52,23 @@ input[type=text].fsearch:focus{border-color:var(--gold);}
 table{width:100%;border-collapse:collapse;min-width:600px;}
 thead tr{background:rgba(201,168,76,.06);border-bottom:1px solid var(--div);}
 th{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);padding:11px 14px;text-align:left;white-space:nowrap;cursor:pointer;user-select:none;}
-th:hover{color:var(--goldl);}
+th:hover{color:var(--gold);}
 th .sort-arrow{margin-left:4px;opacity:.4;}
-th.sorted .sort-arrow{opacity:1;color:var(--goldl);}
-td{padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.03);font-size:11.5px;color:var(--txt);vertical-align:middle;}
-tr:hover td{background:rgba(255,255,255,.02);}
+th.sorted .sort-arrow{opacity:1;color:var(--gold);}
+td{padding:9px 14px;border-bottom:1px solid rgba(90,30,20,.08);font-size:11.5px;color:var(--txt);vertical-align:middle;}
+tr:hover td{background:rgba(122,31,45,.035);}
 tbody tr:last-child td{border-bottom:none;}
 
 /* SCORE BADGE */
 .sc{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;font-size:10.5px;font-weight:600;font-family:'Montserrat',sans-serif;flex-shrink:0;}
-.s100{background:#5C0A0A;color:#FFD700;border:1.5px solid #C9A84C;}
-.s95{background:#6B1010;color:#FFCB5A;border:1.5px solid #B08030;}
-.s90{background:#5A1A20;color:#F0B860;border:1.5px solid #906840;}
-.s85{background:#3A2010;color:#D4A060;border:1.5px solid #705030;}
-.s80{background:#282020;color:#C09060;border:1.5px solid #605040;}
-.s75{background:#1E1E20;color:#909090;border:1.5px solid #404040;}
-.s70{background:#181818;color:#686868;border:1.5px solid #303030;}
-.s0{background:#141414;color:#505050;border:1.5px solid #282828;}
+.s100{background:#FBEEC7;color:#7A5710;border:1.5px solid #C9A84C;}
+.s95{background:#FBF1DC;color:#8A6318;border:1.5px solid #B08030;}
+.s90{background:#F7EBDD;color:#7E5024;border:1.5px solid #906840;}
+.s85{background:#F3E6DA;color:#764A26;border:1.5px solid #705030;}
+.s80{background:#EFE7DD;color:#645236;border:1.5px solid #605040;}
+.s75{background:#ECEAE6;color:#666460;border:1.5px solid #A8A6A0;}
+.s70{background:#EAEAE8;color:#78766E;border:1.5px solid #B0AEA8;}
+.s0{background:#F1EEE8;color:#A8A096;border:1.5px solid #D8D0C0;}
 
 /* VINTAGE YEAR CELL */
 .yr-cell{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:var(--cream);white-space:nowrap;}
@@ -82,7 +82,7 @@ tbody tr:last-child td{border-bottom:none;}
 .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:2px;}
 .ch-card{background:var(--darkc);border:1px solid var(--div);padding:18px 20px;transition:background .25s,border-color .25s;position:relative;overflow:hidden;}
 .ch-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);transform:scaleY(0);transition:transform .3s;transform-origin:bottom;}
-.ch-card:hover{background:#250F14;}
+.ch-card:hover{background:var(--surface2);}
 .ch-card:hover::before{transform:scaleY(1);}
 .ch-growth{font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
 .ch-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;color:var(--cream);margin-bottom:3px;line-height:1.25;}
@@ -95,13 +95,13 @@ tbody tr:last-child td{border-bottom:none;}
 /* APPELLATIONS */
 .app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;}
 .app-card{background:var(--darkc);border:1px solid var(--div);padding:24px 26px;transition:background .25s;}
-.app-card:hover{background:#250F14;}
+.app-card:hover{background:var(--surface2);}
 .app-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:middle;}
 .app-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--cream);margin-bottom:4px;}
 .app-type{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
 .app-desc{font-size:11.5px;color:var(--dim);line-height:1.7;margin-bottom:12px;}
 .app-subs{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;padding-top:10px;border-top:1px solid var(--div);}
-.app-sub{font-size:9px;letter-spacing:.12em;color:var(--creamd);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:3px 8px;}
+.app-sub{font-size:9px;letter-spacing:.12em;color:var(--creamd);background:rgba(90,30,20,.04);border:1px solid rgba(90,30,20,.1);padding:3px 8px;}
 
 /* FOOTER */
 footer{border-top:1px solid var(--div);padding:32px 30px;text-align:center;color:var(--dim);font-size:9.5px;letter-spacing:.15em;margin-top:60px;}
@@ -127,9 +127,9 @@ footer a{color:var(--gold);text-decoration:none;}
   <p class="hero-sub">Appellationen · Jahrgänge 1980–2024 · Klassifikation 1855 · Tous les Châteaux</p>
   <div class="hero-line"></div>
   <div style="position:absolute;bottom:40px;z-index:2;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-    <span onclick="showPage('appellations',null)" style="cursor:pointer;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:11px 22px;border:1px solid var(--div);color:var(--dim);background:rgba(255,255,255,.02);transition:all .2s;" onmouseover="this.style.color='var(--goldl)'" onmouseout="this.style.color='var(--dim)'">→ Appellationen</span>
-    <span onclick="showPage('vintage',null)" style="cursor:pointer;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:11px 22px;background:var(--bx);border:1px solid var(--bxl);color:var(--cream);">→ Jahrgangstabelle</span>
-    <span onclick="showPage('class1855',null)" style="cursor:pointer;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:11px 22px;border:1px solid var(--div);color:var(--dim);background:rgba(255,255,255,.02);" onmouseover="this.style.color='var(--goldl)'" onmouseout="this.style.color='var(--dim)'">→ Klassifikation 1855</span>
+    <span onclick="showPage('appellations',null)" style="cursor:pointer;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:11px 22px;border:1px solid var(--div);color:var(--dim);background:rgba(255,255,255,.6);transition:all .2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--dim)'">→ Appellationen</span>
+    <span onclick="showPage('vintage',null)" style="cursor:pointer;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:11px 22px;background:var(--bx);border:1px solid var(--bxl);color:var(--on-bx);">→ Jahrgangstabelle</span>
+    <span onclick="showPage('class1855',null)" style="cursor:pointer;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:11px 22px;border:1px solid var(--div);color:var(--dim);background:rgba(255,255,255,.6);" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--dim)'">→ Klassifikation 1855</span>
   </div>
 </div>
 </div>
@@ -460,7 +460,7 @@ function renderVintage() {
     const avg = avgScore(v);
     const ql = vtQuality(v);
     const qlLabel = { leg: '★ Legendär', exc: 'Exzellent', vgood: 'Sehr gut', good: 'Gut', poor: 'Schwach' }[ql];
-    const qlColor = { leg: 'var(--goldl)', exc: '#E0A060', vgood: '#B09060', good: '#808088', poor: 'var(--dim)' }[ql];
+    const qlColor = { leg: 'var(--gold)', exc: '#9C7530', vgood: '#8A7050', good: '#8A8078', poor: 'var(--dim)' }[ql];
     return `<tr data-ql="${ql}">
       <td><span class="yr-cell">${v.y}</span><br><span style="font-size:9px;color:${qlColor};letter-spacing:.15em;">${qlLabel}</span></td>
       <td class="col-left col-right">${scBadge(v.p)}</td>
@@ -597,7 +597,7 @@ function renderGCC() {
   });
   document.getElementById('gcctbody').innerHTML = data.map(c => `
     <tr>
-      <td><span style="display:inline-block;padding:3px 10px;background:${cruColor[c.cru]};color:var(--cream);font-size:9px;letter-spacing:.2em;white-space:nowrap;">${cruLabel[c.cru]}</span></td>
+      <td><span style="display:inline-block;padding:3px 10px;background:${cruColor[c.cru]};color:var(--on-bx);font-size:9px;letter-spacing:.2em;white-space:nowrap;">${cruLabel[c.cru]}</span></td>
       <td style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream);font-weight:400;">${c.name}</td>
       <td><span style="font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);">${c.app}</span></td>
       <td style="font-size:10.5px;color:var(--dim);">${c.grapes}</td>
@@ -682,7 +682,7 @@ function renderSaut() {
   });
   document.getElementById('sauttbody').innerHTML = data.map(c => `
     <tr>
-      <td><span style="display:inline-block;padding:3px 10px;background:${sautCruColor[c.cru]};color:var(--dark);font-size:9px;letter-spacing:.2em;font-weight:600;white-space:nowrap;">${sautCruLabel[c.cru]}</span></td>
+      <td><span style="display:inline-block;padding:3px 10px;background:${sautCruColor[c.cru]};color:var(--cream);font-size:9px;letter-spacing:.2em;font-weight:600;white-space:nowrap;">${sautCruLabel[c.cru]}</span></td>
       <td style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream);font-weight:400;">${c.name}</td>
       <td><span style="font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);">${c.app}</span></td>
       <td style="font-size:10.5px;color:var(--dim);">${c.grapes}</td>
@@ -762,7 +762,7 @@ let vSautSortCol = 0, vSautSortDir = -1;
 function renderVSaut(data) {
   document.getElementById('vsauttbody').innerHTML = data.map(v => {
     const cls = sc(v.s);
-    const botColor = v.s >= 94 ? 'var(--goldl)' : v.s >= 88 ? '#C0A060' : v.s >= 83 ? '#909060' : 'var(--dim)';
+    const botColor = v.s >= 94 ? 'var(--gold)' : v.s >= 88 ? '#9C7A3E' : v.s >= 83 ? '#8A7A50' : 'var(--dim)';
     return `<tr>
       <td><span class="yr-cell">${v.y}</span></td>
       <td>${scBadge(v.s)}</td>
