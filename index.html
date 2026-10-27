@@ -2,347 +2,335 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FBF7EE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#171113" media="(prefers-color-scheme: dark)">
 <title>Bordeaux — Guide des Grands Vins</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="description" content="Die Appellationen von Bordeaux, Jahrgangsbewertungen 1980–2024, die Klassifikation von 1855 für Médoc sowie Sauternes &amp; Barsac.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%237A1F33'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23F3E7CF' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bx:#8A2438;--bxl:#A83A50;--bxd:#5C1524;--gold:#8F6A1E;--goldl:#A87F2E;--cream:#2B1116;--creamd:#5C4A3E;--dark:#FBF7EE;--darkc:#FFFFFF;--surface2:#F6EEE1;--on-bx:#F8F1E4;--txt:#4A3830;--dim:#82705F;--div:rgba(122,31,45,0.16);}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'Montserrat',sans-serif;background:var(--dark);color:var(--txt);font-size:12.5px;line-height:1.6;}
+/* =============================================
+   TOKENS — mobile first (Designsystem wie Südafrika-Guide, Farben Bordeaux)
+   ============================================= */
+:root{
+  --pri:#7A1F33;--pril:#962B43;--gold:#8F6A1E;--goldl:#A87F2E;
+  --ink:#2B1116;--txt:#4A3830;--dim:#76655A;--bg:#FBF7EE;--card:#FFFFFF;--soft:#F4ECE0;
+  --on-pri:#F8F1E4;--line:rgba(122,31,45,.14);--line2:rgba(90,30,20,.08);
+  --hero1:#F3DCE0;--hero2:#FBF3E9;--bar:rgba(251,247,238,.92);--shadow:0 1px 2px rgba(60,20,25,.06),0 4px 14px rgba(60,20,25,.05);
+  --r:14px;--gap:16px;--safe-b:env(safe-area-inset-bottom,0px);
+  --tab-h:64px;--app-h:52px;
+}
+@media (prefers-color-scheme: dark){:root{
+  --pri:#C9566C;--pril:#DA7084;--gold:#D9A94E;--goldl:#E6BC68;
+  --ink:#F3E9E0;--txt:#D9CCC4;--dim:#A8988E;--bg:#171113;--card:#211719;--soft:#2C2023;
+  --on-pri:#170E10;--line:rgba(220,140,155,.16);--line2:rgba(240,210,215,.07);
+  --hero1:#3A1C23;--hero2:#1C1416;--bar:rgba(23,17,19,.92);--shadow:none;
+}}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--txt);font-size:15px;line-height:1.55;overflow-x:hidden;
+  padding-top:var(--app-h);padding-bottom:calc(var(--tab-h) + var(--safe-b));}
+a{color:var(--gold);}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
+[hidden]{display:none!important;}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:center;align-items:center;gap:0;background:rgba(251,247,238,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--div);}
-.nav-item{padding:14px 18px;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--dim);text-decoration:none;cursor:pointer;transition:color .25s,background .25s;border-right:1px solid var(--div);}
-.nav-item:first-child{border-left:1px solid var(--div);}
-.nav-item:hover,.nav-item.active{color:var(--gold);background:rgba(201,168,76,0.1);}
+/* =============================================
+   APP BAR (oben) + TAB BAR (unten, ab 900px oben)
+   ============================================= */
+.appbar{position:fixed;top:0;left:0;right:0;height:var(--app-h);z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 16px;
+  background:var(--bar);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+.brand{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap;}
+.brand em{color:var(--gold);font-style:italic;font-weight:400;}
+.appbar-r{display:flex;align-items:center;gap:6px;font-size:12px;white-space:nowrap;}
+.appbar-r a{color:var(--dim);text-decoration:none;}
+.ver{font:inherit;font-size:11px;color:var(--gold);background:none;border:0;padding:4px 2px;cursor:pointer;}
+.changelog{margin-top:14px;}
+.changelog summary{cursor:pointer;color:var(--txt);}
+.changelog ol{list-style:none;margin:8px 0 0;display:grid;gap:8px;}
+.changelog li b{font-family:inherit;font-size:12.5px;display:inline;color:var(--ink);margin:0;}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:repeat(5,1fr);
+  height:calc(var(--tab-h) + var(--safe-b));padding-bottom:var(--safe-b);background:var(--bar);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:500;color:var(--dim);text-decoration:none;}
+.tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+.tab.on{color:var(--pri);}
+.tab.on svg{stroke-width:2;}
 
-/* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% -10%,#F3DCE0 0%,#FBF3E9 45%,var(--dark) 100%);}
-.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:220px;background:linear-gradient(transparent,var(--dark));pointer-events:none;}
-.hero-badge{font-size:10px;letter-spacing:.55em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;opacity:0;animation:fu .9s ease forwards .3s;}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(72px,13vw,150px);font-weight:300;letter-spacing:.07em;line-height:.88;color:var(--cream);opacity:0;animation:fu .9s ease forwards .6s;}
-.hero-title em{font-style:italic;color:var(--goldl);display:block;font-size:.38em;letter-spacing:.3em;margin-top:18px;}
-.hero-sub{font-size:9.5px;letter-spacing:.4em;text-transform:uppercase;color:var(--dim);margin-top:36px;opacity:0;animation:fu .9s ease forwards .9s;}
-.hero-line{width:1px;height:70px;background:linear-gradient(var(--gold),transparent);margin:36px auto 0;opacity:0;animation:fu .9s ease forwards 1.1s;}
-@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+/* =============================================
+   LAYOUT
+   ============================================= */
+.page{display:none;padding:20px 16px 32px;max-width:1240px;margin:0 auto;}
+.page.on{display:block;}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+h1,h2{font-family:'Cormorant Garamond',serif;font-weight:400;color:var(--ink);line-height:1.08;}
+h2.title{font-size:34px;margin-bottom:12px;}
+h2.title em,h1 em{font-style:italic;color:var(--gold);}
+.lead{color:var(--dim);font-size:15px;line-height:1.65;margin-bottom:16px;max-width:70ch;}
+.info{margin:0 0 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);}
+.info summary{list-style:none;padding:12px 14px;font-size:13px;font-weight:600;color:var(--pri);cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+.info summary::-webkit-details-marker{display:none;}
+.info summary::after{content:'+';font-size:18px;font-weight:400;}
+.info[open] summary::after{content:'–';}
+.info div{padding:0 14px 14px;font-size:14px;color:var(--dim);line-height:1.65;}
+.h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--ink);margin:30px 0 6px;line-height:1.15;}
+.h3 em{color:var(--gold);}
 
-/* PAGE SECTIONS */
-.page{display:none;padding:80px 0 40px;}
-.page.active{display:block;}
-.container{max-width:1500px;margin:0 auto;padding:0 30px;}
+/* =============================================
+   CHIPS, SEGMENTED, SEARCH
+   ============================================= */
+.seg{display:flex;gap:4px;padding:4px;background:var(--soft);border-radius:12px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;}
+.seg::-webkit-scrollbar{display:none;}
+.seg button{flex:1 0 auto;padding:9px 12px;border-radius:9px;font-size:13px;font-weight:600;color:var(--dim);white-space:nowrap;}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow);}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 16px 4px;margin:0 -16px 12px;scroll-padding:16px;}
+.chips::-webkit-scrollbar{display:none;}
+.chip{flex:0 0 auto;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:13px;font-weight:500;color:var(--txt);white-space:nowrap;}
+.chip.on{background:var(--pri);border-color:var(--pri);color:var(--on-pri);}
+.chip small{opacity:.7;margin-left:3px;}
+.tools{position:sticky;top:var(--app-h);z-index:20;background:var(--bg);margin:0 -16px;padding:8px 16px 4px;}
+.searchrow{display:flex;gap:8px;margin-bottom:8px;}
+.search{flex:1;min-width:0;height:44px;padding:0 14px 0 40px;border:1px solid var(--line);border-radius:12px;background:var(--card) no-repeat 13px 50%/18px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23908078' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E");
+  font:inherit;font-size:15px;color:var(--txt);outline:none;}
+.search:focus{border-color:var(--gold);}
+.select{height:36px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--card);font:inherit;font-size:13px;color:var(--txt);max-width:100%;}
+.resultbar{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;color:var(--dim);margin:2px 0 12px;}
+.label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:4px 0 6px;}
 
-/* SECTION HEADERS */
-.sec-label{font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;}
-.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,56px);font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:36px;}
-.sec-title em{font-style:italic;color:var(--goldl);}
+/* =============================================
+   KARTEN
+   ============================================= */
+.list{display:grid;gap:12px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:1px;}
+.grape{padding:2px 8px;border-radius:6px;background:var(--soft);color:var(--txt);font-size:12px;}
+.empty{padding:28px 16px;text-align:center;color:var(--dim);font-size:14px;}
 
-/* FILTER BAR */
-.filter-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;align-items:center;}
-.filter-bar label{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-right:4px;}
-.fbtn{font-size:9px;letter-spacing:.25em;text-transform:uppercase;padding:7px 14px;border:1px solid rgba(90,30,20,.16);background:transparent;color:var(--dim);cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;border-radius:1px;}
-.fbtn:hover,.fbtn.on{background:var(--bx);border-color:var(--bxl);color:var(--on-bx);}
-.fbtn.gold-active{background:var(--gold);border-color:var(--gold);color:var(--on-bx);}
-input[type=text].fsearch{font-size:11px;padding:7px 14px;border:1px solid rgba(90,30,20,.16);background:#FFFFFF;color:var(--txt);font-family:'Montserrat',sans-serif;outline:none;min-width:200px;border-radius:1px;}
-input[type=text].fsearch::placeholder{color:var(--dim);}
-input[type=text].fsearch:focus{border-color:var(--gold);}
-
-/* TABLE BASE */
-.tbl-wrap{overflow-x:auto;border:1px solid var(--div);}
-table{width:100%;border-collapse:collapse;min-width:600px;}
-thead tr{background:rgba(201,168,76,.06);border-bottom:1px solid var(--div);}
-th{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);padding:11px 14px;text-align:left;white-space:nowrap;cursor:pointer;user-select:none;}
-th:hover{color:var(--gold);}
-th .sort-arrow{margin-left:4px;opacity:.4;}
-th.sorted .sort-arrow{opacity:1;color:var(--gold);}
-td{padding:9px 14px;border-bottom:1px solid rgba(90,30,20,.08);font-size:11.5px;color:var(--txt);vertical-align:middle;}
-tr:hover td{background:rgba(122,31,45,.035);}
-tbody tr:last-child td{border-bottom:none;}
-
-/* SCORE BADGE */
-.sc{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;font-size:10.5px;font-weight:600;font-family:'Montserrat',sans-serif;flex-shrink:0;}
-.s100{background:#FBEEC7;color:#7A5710;border:1.5px solid #C9A84C;}
-.s95{background:#FBF1DC;color:#8A6318;border:1.5px solid #B08030;}
-.s90{background:#F7EBDD;color:#7E5024;border:1.5px solid #906840;}
-.s85{background:#F3E6DA;color:#764A26;border:1.5px solid #705030;}
-.s80{background:#EFE7DD;color:#645236;border:1.5px solid #605040;}
+/* SCORE (Schwellen wie bisher: 96+ · 90–95 · 85–89 · 80–84 · 75–79 · <75) */
+.sc{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;font-size:14px;font-weight:600;}
+.s96{background:#FBEEC7;color:#7A5710;border:1.5px solid #C9A84C;}
+.s90{background:#FBF1DC;color:#8A6318;border:1.5px solid #B08030;}
+.s85{background:#F7EBDD;color:#7E5024;border:1.5px solid #906840;}
+.s80{background:#F3E6DA;color:#764A26;border:1.5px solid #705030;}
 .s75{background:#ECEAE6;color:#666460;border:1.5px solid #A8A6A0;}
-.s70{background:#EAEAE8;color:#78766E;border:1.5px solid #B0AEA8;}
-.s0{background:#F1EEE8;color:#A8A096;border:1.5px solid #D8D0C0;}
+.s0{background:#EEEDE8;color:#86847C;border:1.5px solid #C4C2B8;}
+.sc.sm{width:34px;height:34px;font-size:12.5px;}
 
-/* VINTAGE YEAR CELL */
-.yr-cell{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:var(--cream);white-space:nowrap;}
-.vintage-note{font-size:10.5px;color:var(--dim);max-width:240px;line-height:1.5;}
+/* =============================================
+   START
+   ============================================= */
+.hero{margin:-20px -16px 20px;padding:40px 20px 30px;text-align:center;background:radial-gradient(ellipse 120% 80% at 50% 0%,var(--hero1) 0%,var(--hero2) 55%,var(--bg) 100%);}
+.hero .eyebrow{letter-spacing:.2em;}
+.hero h1{font-size:56px;font-weight:400;margin:6px 0 4px;}
+.hero h1 em{display:block;font-size:22px;letter-spacing:.06em;margin-top:6px;}
+.hero p{font-size:14px;color:var(--dim);max-width:46ch;margin:14px auto 0;}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+.tile{display:flex;flex-direction:column;justify-content:space-between;min-height:104px;padding:14px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);text-align:left;text-decoration:none;}
+.tile b{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);line-height:1.1;}
+.tile span{font-size:12.5px;color:var(--dim);}
+.tile.main{background:var(--pri);border-color:var(--pri);}
+.tile.main b,.tile.main span{color:var(--on-pri);}
+.facts{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin:0 -16px 20px;padding:2px 16px;scroll-snap-type:x mandatory;}
+.facts::-webkit-scrollbar{display:none;}
+.fact{flex:0 0 72%;scroll-snap-align:start;padding:16px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);}
+.fact b{display:block;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--ink);line-height:1.1;margin-bottom:4px;}
+.fact span{font-size:13px;color:var(--dim);}
 
-/* SCORE STAR ROW */
-.star-bar{display:flex;gap:2px;align-items:center;}
-.star-pip{width:7px;height:7px;border-radius:50%;}
+/* APPELLATIONEN */
+.rc-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--ink);line-height:1.15;display:flex;align-items:center;gap:8px;}
+.rc-name .dot{flex:0 0 auto;width:11px;height:11px;margin:0;}
+.rc-type{font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--gold);margin:4px 0 8px;}
+.rc-desc{font-size:14px;line-height:1.6;color:var(--dim);}
+.card:not(.open) .rc-desc{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
+.rc-subs{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.rc-subs span{font-size:12px;padding:3px 9px;border-radius:6px;background:var(--soft);}
+.rc-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.btn{flex:1;min-height:42px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;text-decoration:none;white-space:nowrap;}
+.btn.pri{background:var(--pri);color:var(--on-pri);}
+.btn.ghost{border:1px solid var(--line);color:var(--pri);}
 
-/* 1855 CARDS */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:2px;}
-.ch-card{background:var(--darkc);border:1px solid var(--div);padding:18px 20px;transition:background .25s,border-color .25s;position:relative;overflow:hidden;}
-.ch-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);transform:scaleY(0);transition:transform .3s;transform-origin:bottom;}
-.ch-card:hover{background:var(--surface2);}
-.ch-card:hover::before{transform:scaleY(1);}
-.ch-growth{font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
-.ch-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;color:var(--cream);margin-bottom:3px;line-height:1.25;}
-.ch-app{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;}
-.ch-note{font-size:10px;color:var(--dim);line-height:1.55;}
+/* JAHRGÄNGE */
+.vc-top{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.vc-year{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--ink);line-height:1;}
+.vc-q{font-size:12px;font-weight:600;color:var(--gold);margin-top:4px;}
+.vc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 6px;margin:14px 0 0;}
+.vc-grid div{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;font-size:11px;line-height:1.25;color:var(--dim);}
+.vc-note{font-size:14px;color:var(--dim);line-height:1.6;margin-top:12px;}
+.vc-drink{font-size:13px;margin-top:8px;color:var(--txt);}
+.vc-drink b{font-weight:600;}
+.legend{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;font-size:12px;color:var(--dim);margin:0 -16px 12px;padding:0 16px;}
+.legend::-webkit-scrollbar{display:none;}
+.legend span{display:flex;align-items:center;gap:6px;white-space:nowrap;}
 
-/* COUNT BADGE */
-.count-badge{display:inline-block;background:rgba(201,168,76,.12);border:1px solid var(--div);color:var(--gold);font-size:9px;padding:2px 10px;margin-left:10px;letter-spacing:.2em;}
+/* CHÂTEAUX (1855) */
+.cc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+.cru{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px;color:#FFF8EC;white-space:nowrap;}
+.cc-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);line-height:1.15;margin-top:8px;}
+.cc-app{font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--gold);margin-top:2px;}
+.cc-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.cc-note{font-size:14px;color:var(--dim);line-height:1.6;margin-top:10px;}
+.bot{font-size:13px;font-weight:600;margin-top:4px;}
 
-/* APPELLATIONS */
-.app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;}
-.app-card{background:var(--darkc);border:1px solid var(--div);padding:24px 26px;transition:background .25s;}
-.app-card:hover{background:var(--surface2);}
-.app-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:middle;}
-.app-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--cream);margin-bottom:4px;}
-.app-type{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
-.app-desc{font-size:11.5px;color:var(--dim);line-height:1.7;margin-bottom:12px;}
-.app-subs{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;padding-top:10px;border-top:1px solid var(--div);}
-.app-sub{font-size:9px;letter-spacing:.12em;color:var(--creamd);background:rgba(90,30,20,.04);border:1px solid rgba(90,30,20,.1);padding:3px 8px;}
+footer{max-width:1240px;margin:0 auto;padding:24px 16px 32px;border-top:1px solid var(--line);font-size:12.5px;line-height:1.7;color:var(--dim);}
+footer b{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--ink);font-weight:600;display:block;margin-bottom:6px;}
 
-/* FOOTER */
-footer{border-top:1px solid var(--div);padding:32px 30px;text-align:center;color:var(--dim);font-size:9.5px;letter-spacing:.15em;margin-top:60px;}
-footer a{color:var(--gold);text-decoration:none;}
-.divider{height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:40px 0;}
+/* =============================================
+   TABLET & DESKTOP (progressive Erweiterung)
+   ============================================= */
+@media (min-width:640px){
+  .tiles{grid-template-columns:repeat(3,1fr);}
+  .fact{flex-basis:40%;}
+  .list.cols{grid-template-columns:repeat(2,1fr);}
+  .hero h1{font-size:84px;}
+  h2.title{font-size:44px;}
+}
+@media (min-width:900px){
+  :root{--tab-h:0px;--app-h:60px;}
+  body{padding-bottom:0;}
+  .appbar{padding:0 28px;}
+  .tabbar{top:0;bottom:auto;left:auto;right:20px;height:var(--app-h);z-index:60;display:flex;align-items:center;padding:0;background:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none;grid-template-columns:none;gap:4px;}
+  .tab{flex-direction:row;gap:7px;padding:8px 12px;border-radius:10px;font-size:13.5px;}
+  .tab svg{width:18px;height:18px;}
+  .tab.on{background:var(--soft);}
+  .appbar{justify-content:flex-start;gap:18px;}
+  .appbar-r{padding-top:3px;}
+  .page{padding:32px 28px 48px;}
+  .hero{margin:-32px -28px 28px;padding:72px 28px 56px;}
+  .hero h1{font-size:110px;}
+  .hero h1 em{font-size:28px;}
+  .tiles{grid-template-columns:repeat(6,1fr);}
+  .facts{display:grid;grid-template-columns:repeat(5,1fr);overflow:visible;margin:0 0 24px;padding:0;}
+  .chips{flex-wrap:wrap;overflow:visible;margin:0 0 12px;padding:0;}
+  .legend{flex-wrap:wrap;margin:0 0 12px;padding:0;}
+  .tools{margin:0;padding:10px 0 4px;}
+  .list.cols{grid-template-columns:repeat(3,1fr);}
+  .vc-grid.n7{grid-template-columns:repeat(7,1fr);}
+  footer{padding:28px;}
+}
 </style>
 </head>
 <body>
 
-<nav>
-  <span class="nav-item active" onclick="showPage('home',this)">Bordeaux</span>
-  <span class="nav-item" onclick="showPage('appellations',this)">Appellationen</span>
-  <span class="nav-item" onclick="showPage('vintage',this)">Jahrgänge 1980–2024</span>
-  <span class="nav-item" onclick="showPage('class1855',this)">Klassifikation 1855</span>
-  <span class="nav-item" onclick="showPage('sauternes',this)">Sauternes & Barsac</span>
+<header class="appbar">
+  <a class="brand" href="#start">Bordeaux <em>Grands Vins</em></a>
+  <div class="appbar-r"><button class="ver" id="verBtn" type="button" title="Version und Änderungen"></button><a href="https://attallah.de">attallah.de</a></div>
+</header>
+<nav class="tabbar" aria-label="Hauptnavigation">
+  <a class="tab" href="#start" data-p="start"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg>Start</a>
+  <a class="tab" href="#appellationen" data-p="appellationen"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>Regionen</a>
+  <a class="tab" href="#jahrgaenge" data-p="jahrgaenge"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Jahrgänge</a>
+  <a class="tab" href="#medoc" data-p="medoc"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="m9 13.5-1.5 7L12 18l4.5 2.5-1.5-7"/></svg>1855</a>
+  <a class="tab" href="#sauternes" data-p="sauternes"><svg viewBox="0 0 24 24"><path d="M8 3h8l-.5 6a3.5 3.5 0 0 1-7 0z"/><path d="M12 13v7M8.5 21h7"/></svg>Sauternes</a>
 </nav>
 
-<!-- ========== HOME ========== -->
-<div id="page-home" class="page active">
-<div class="hero">
-  <div class="hero-badge">Gironde · France · Grand Crus Classés</div>
-  <h1 class="hero-title">Bordeaux<em>Guide des Grands Vins</em></h1>
-  <p class="hero-sub">Appellationen · Jahrgänge 1980–2024 · Klassifikation 1855 · Tous les Châteaux</p>
-  <div class="hero-line"></div>
-  <div style="position:absolute;bottom:40px;z-index:2;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-    <span onclick="showPage('appellations',null)" style="cursor:pointer;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:11px 22px;border:1px solid var(--div);color:var(--dim);background:rgba(255,255,255,.6);transition:all .2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--dim)'">→ Appellationen</span>
-    <span onclick="showPage('vintage',null)" style="cursor:pointer;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:11px 22px;background:var(--bx);border:1px solid var(--bxl);color:var(--on-bx);">→ Jahrgangstabelle</span>
-    <span onclick="showPage('class1855',null)" style="cursor:pointer;font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:11px 22px;border:1px solid var(--div);color:var(--dim);background:rgba(255,255,255,.6);" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--dim)'">→ Klassifikation 1855</span>
+<main>
+<!-- ========== START ========== -->
+<section id="p-start" class="page">
+  <div class="hero">
+    <div class="eyebrow">Gironde · France · Grands Crus Classés</div>
+    <h1>Bordeaux<em>Guide des Grands Vins</em></h1>
+    <p>Appellationen, Jahrgänge 1980–2024, die Klassifikation von 1855 und alle Crus Classés von Sauternes &amp; Barsac.</p>
   </div>
-</div>
-</div>
+  <div class="tiles" id="tiles"></div>
+  <div class="eyebrow">Bordeaux in Zahlen</div>
+  <div class="facts">
+    <div class="fact"><b>1855</b><span>Klassifikation zur Pariser Weltausstellung</span></div>
+    <div class="fact"><b>61</b><span>Grands Crus Classés du Médoc (inkl. Haut-Brion)</span></div>
+    <div class="fact"><b>27</b><span>Crus Classés Sauternes &amp; Barsac</span></div>
+    <div class="fact"><b>1973</b><span>Mouton Rothschild wird Premier Cru</span></div>
+    <div class="fact"><b>1</b><span>Premier Cru Supérieur: Château d'Yquem</span></div>
+  </div>
+  <p class="lead">Bordeaux teilt sich entlang von Gironde, Garonne und Dordogne. Am linken Ufer, im Médoc und in Graves, geben Kiesböden dem Cabernet Sauvignon Kraft und Langlebigkeit; hier liegen fast alle 1855 klassifizierten Châteaux. Am rechten Ufer, in Saint-Émilion und Pomerol, dominieren Merlot und Cabernet Franc auf Kalkstein und blauem Ton. Im Süden lässt der Nebel des Ciron die Edelfäule entstehen, aus der Sauternes und Barsac ihre Süßweine keltern.</p>
+</section>
 
 <!-- ========== APPELLATIONEN ========== -->
-<div id="page-appellations" class="page">
-<div class="container" style="padding-top:40px;">
-  <span class="sec-label">Les Appellations Contrôlées</span>
-  <h2 class="sec-title">Die Weinregionen <em>von Bordeaux</em></h2>
-  <div class="app-grid" id="appGrid"></div>
-</div>
-</div>
+<section id="p-appellationen" class="page">
+  <div class="eyebrow">Les Appellations Contrôlées</div>
+  <h2 class="title">Die Weinregionen <em>von Bordeaux</em></h2>
+  <details class="info"><summary>Linkes und rechtes Ufer</summary><div>Das <b>linke Ufer</b> (Médoc, Graves, Pessac-Léognan) liegt westlich von Gironde und Garonne: Kiesböden, Cabernet Sauvignon. Das <b>rechte Ufer</b> (Saint-Émilion, Pomerol, Fronsac) liegt östlich der Dordogne: Kalkstein und Ton, Merlot und Cabernet Franc. Dazwischen liegt Entre-Deux-Mers mit vor allem trockenen Weißweinen.</div></details>
+  <div class="list cols" id="appList"></div>
+</section>
 
 <!-- ========== JAHRGÄNGE ========== -->
-<div id="page-vintage" class="page">
-<div class="container" style="padding-top:40px;">
-  <span class="sec-label">Millésimes · Jahrgangstabelle</span>
-  <h2 class="sec-title">Jahrgangsbewertungen <em>1980–2024</em></h2>
-  <p style="color:var(--dim);font-size:11px;margin-bottom:28px;max-width:800px;line-height:1.8;">Konsolidierte Bewertungen aus 4 unabhängigen Quellen: <a href="https://www.thewinecellarinsider.com" target="_blank" style="color:var(--gold)">Wine Cellar Insider</a> · <a href="https://www.jancisrobinson.com" target="_blank" style="color:var(--gold)">Jancis Robinson MW</a> · <a href="https://www.winespectator.com" target="_blank" style="color:var(--gold)">Wine Spectator</a> · <a href="https://www.decanter.com" target="_blank" style="color:var(--gold)">Decanter</a>. Punkte auf 100-Punkte-Skala.</p>
-
-  <div class="filter-bar">
-    <label>Region:</label>
-    <button class="fbtn on" onclick="setVCol('all',this)">Alle Spalten</button>
-    <button class="fbtn" onclick="setVCol('left',this)">Linkes Ufer</button>
-    <button class="fbtn" onclick="setVCol('right',this)">Rechtes Ufer</button>
-    <button class="fbtn" onclick="setVCol('saut',this)">Sauternes</button>
-    <span style="width:1px;height:20px;background:var(--div);margin:0 6px;"></span>
-    <label>Qualität:</label>
-    <button class="fbtn on" onclick="filterVintage('all',this)">Alle</button>
-    <button class="fbtn" onclick="filterVintage('leg',this)">★ Legendär 96+</button>
-    <button class="fbtn" onclick="filterVintage('exc',this)">Exzellent 90–95</button>
-    <button class="fbtn" onclick="filterVintage('vgood',this)">Sehr gut 85–89</button>
-    <button class="fbtn" onclick="filterVintage('good',this)">Gut 80–84</button>
-    <button class="fbtn" onclick="filterVintage('poor',this)">Schwach &lt;80</button>
+<section id="p-jahrgaenge" class="page">
+  <div class="eyebrow">Millésimes · Jahrgangstabelle</div>
+  <h2 class="title">Jahrgänge <em>1980–2024</em></h2>
+  <details class="info"><summary>Woher die Punkte kommen</summary><div>Konsolidierte Bewertungen aus vier unabhängigen Quellen: <a href="https://www.thewinecellarinsider.com" target="_blank" rel="noopener">Wine Cellar Insider</a>, <a href="https://www.jancisrobinson.com" target="_blank" rel="noopener">Jancis Robinson MW</a>, <a href="https://www.winespectator.com" target="_blank" rel="noopener">Wine Spectator</a> und <a href="https://www.decanter.com" target="_blank" rel="noopener">Decanter</a>, auf der 100-Punkte-Skala. Der Durchschnitt (Ø) und der Qualitätsfilter beziehen sich auf die gewählte Ansicht (alle Regionen, linkes Ufer, rechtes Ufer oder Sauternes).</div></details>
+  <div class="seg" id="v-seg">
+    <button data-v="all" class="on">Alle</button>
+    <button data-v="left">Linkes Ufer</button>
+    <button data-v="right">Rechtes Ufer</button>
+    <button data-v="saut">Sauternes</button>
   </div>
-
-  <!-- LEGEND -->
-  <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:22px;padding:14px 18px;background:var(--darkc);border:1px solid var(--div);">
-    <span style="font-size:9px;color:var(--dim);letter-spacing:.2em;text-transform:uppercase;margin-right:8px;">Legende:</span>
-    <span style="display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);"><span class="sc s100">98</span>Legendär 96+</span>
-    <span style="display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);"><span class="sc s95">92</span>Exzellent 90–95</span>
-    <span style="display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);"><span class="sc s85">87</span>Sehr gut 85–89</span>
-    <span style="display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);"><span class="sc s80">82</span>Gut 80–84</span>
-    <span style="display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);"><span class="sc s75">76</span>Durchschn. 75–79</span>
-    <span style="display:flex;align-items:center;gap:7px;font-size:10px;color:var(--dim);"><span class="sc s0">68</span>Schwach &lt;75</span>
-    <span style="margin-left:auto;font-size:9px;color:var(--dim);align-self:center;">Klick auf Spalten-Header = sortieren</span>
+  <div class="chips" id="v-chips"></div>
+  <div class="legend">
+    <span><span class="sc sm s96">98</span>96+</span><span><span class="sc sm s90">92</span>90–95</span><span><span class="sc sm s85">87</span>85–89</span><span><span class="sc sm s80">82</span>80–84</span><span><span class="sc sm s75">76</span>75–79</span><span><span class="sc sm s0">68</span>&lt;75</span>
   </div>
-
-  <div class="tbl-wrap">
-    <table id="vtable">
-      <thead>
-        <tr>
-          <th onclick="sortVt(0)" data-col="0">Jahr <span class="sort-arrow">↕</span></th>
-          <th class="col-left col-right" onclick="sortVt(1)" data-col="1">Pauillac / St-Julien <span class="sort-arrow">↕</span></th>
-          <th class="col-left" onclick="sortVt(2)" data-col="2">Margaux <span class="sort-arrow">↕</span></th>
-          <th class="col-left" onclick="sortVt(3)" data-col="3">St-Estèphe <span class="sort-arrow">↕</span></th>
-          <th class="col-left" onclick="sortVt(4)" data-col="4">Pessac-Léognan <span class="sort-arrow">↕</span></th>
-          <th class="col-right" onclick="sortVt(5)" data-col="5">Pomerol <span class="sort-arrow">↕</span></th>
-          <th class="col-right" onclick="sortVt(6)" data-col="6">St-Émilion <span class="sort-arrow">↕</span></th>
-          <th class="col-saut" onclick="sortVt(7)" data-col="7">Sauternes <span class="sort-arrow">↕</span></th>
-          <th>Ø</th>
-          <th style="min-width:220px;">Charakter & Trinkreife</th>
-        </tr>
-      </thead>
-      <tbody id="vtbody"></tbody>
-    </table>
+  <div class="resultbar"><span id="v-count"></span>
+    <select class="select" id="v-sort" aria-label="Sortierung"><option value="year">Neueste zuerst</option><option value="avg">Beste zuerst</option><option value="old">Älteste zuerst</option></select>
   </div>
-</div>
-</div>
+  <div class="list cols" id="v-list"></div>
+</section>
 
 <!-- ========== KLASSIFIKATION 1855 ========== -->
-<div id="page-class1855" class="page">
-<div class="container" style="padding-top:40px;">
-  <span class="sec-label">Classification Officielle du Médoc · 1855</span>
-  <h2 class="sec-title">Grands Crus Classés <em>du Médoc</em></h2>
-  <p style="color:var(--dim);font-size:11px;margin-bottom:28px;max-width:760px;line-height:1.8;">Napoleon III. beauftragte 1855 die Pariser Weltausstellung zur Klassifikation der besten Bordeaux-Weine. 61 Châteaux des Médoc wurden in 5 Lagen eingeteilt. Seit 1855 gab es nur 2 Änderungen: Cantemerle (1856 ergänzt) und Mouton Rothschild (1973 von 2ème zu 1er aufgestuft). Quelle: <a href="https://gcc-1855.fr" target="_blank" style="color:var(--gold)">gcc-1855.fr</a> (offizielle PDF).</p>
-
-  <div class="filter-bar">
-    <label>Lage:</label>
-    <button class="fbtn on" onclick="filterGCC('all',this)">Alle (61)</button>
-    <button class="fbtn" onclick="filterGCC('1',this)">1er Cru (5)</button>
-    <button class="fbtn" onclick="filterGCC('2',this)">2ème Cru (14)</button>
-    <button class="fbtn" onclick="filterGCC('3',this)">3ème Cru (14)</button>
-    <button class="fbtn" onclick="filterGCC('4',this)">4ème Cru (10)</button>
-    <button class="fbtn" onclick="filterGCC('5',this)">5ème Cru (18)</button>
-    <span style="width:1px;height:20px;background:var(--div);margin:0 6px;"></span>
-    <label>Appellation:</label>
-    <button class="fbtn" onclick="filterGCCapp('Pauillac',this)">Pauillac</button>
-    <button class="fbtn" onclick="filterGCCapp('Margaux',this)">Margaux</button>
-    <button class="fbtn" onclick="filterGCCapp('Saint-Julien',this)">Saint-Julien</button>
-    <button class="fbtn" onclick="filterGCCapp('Saint-Estèphe',this)">St-Estèphe</button>
-    <button class="fbtn" onclick="filterGCCapp('Haut-Médoc',this)">Haut-Médoc</button>
-    <button class="fbtn" onclick="filterGCCapp('Pessac',this)">Pessac-Léognan</button>
-    <span style="width:1px;height:20px;background:var(--div);margin:0 6px;"></span>
-    <input type="text" class="fsearch" id="gccSearch" placeholder="Château suchen…" oninput="filterGCCsearch()">
+<section id="p-medoc" class="page">
+  <div class="eyebrow">Classification Officielle du Médoc · 1855</div>
+  <h2 class="title">Grands Crus Classés <em>du Médoc</em></h2>
+  <details class="info"><summary>Zur Klassifikation</summary><div>Napoleon III. beauftragte 1855 zur Pariser Weltausstellung die Klassifikation der besten Bordeaux-Weine. 61 Châteaux wurden in fünf Lagen eingeteilt. Seither gab es nur zwei Änderungen: Cantemerle (1856 ergänzt) und Mouton Rothschild (1973 von 2ème zu 1er Cru aufgestuft). Quelle: <a href="https://gcc-1855.fr" target="_blank" rel="noopener">gcc-1855.fr</a> (offizielle PDF).</div></details>
+  <div class="tools">
+    <div class="searchrow"><input class="search" id="m-q" type="search" placeholder="Château, Appellation, Stichwort…" autocomplete="off"></div>
   </div>
-
-  <div class="tbl-wrap">
-    <table id="gcctable">
-      <thead>
-        <tr>
-          <th onclick="sortGCC(0)">Lage <span class="sort-arrow">↕</span></th>
-          <th onclick="sortGCC(1)">Château <span class="sort-arrow">↕</span></th>
-          <th onclick="sortGCC(2)">Appellation <span class="sort-arrow">↕</span></th>
-          <th>Rebsorten</th>
-          <th>Charakter & Notizen</th>
-        </tr>
-      </thead>
-      <tbody id="gcctbody"></tbody>
-    </table>
+  <div class="label">Lage</div>
+  <div class="chips" id="m-cru"></div>
+  <div class="label">Appellation</div>
+  <div class="chips" id="m-app"></div>
+  <div class="resultbar"><span id="m-count"></span>
+    <select class="select" id="m-sort" aria-label="Sortierung"><option value="cru">Lage</option><option value="name">Château A–Z</option><option value="app">Appellation</option></select>
   </div>
-</div>
-</div>
+  <div class="list cols" id="m-list"></div>
+</section>
 
 <!-- ========== SAUTERNES ========== -->
-<div id="page-sauternes" class="page">
-<div class="container" style="padding-top:40px;">
-  <span class="sec-label">Grands Crus Classés de Sauternes & Barsac · 1855</span>
-  <h2 class="sec-title">Sauternes & Barsac <em>1855 Klassifikation</em></h2>
-  <p style="color:var(--dim);font-size:11px;margin-bottom:28px;max-width:760px;line-height:1.8;">27 Châteaux wurden 1855 für ihre edelsüßen Botrytis-Weine klassifiziert. Einzig Château d'Yquem erhielt den Sonderstatus <em>Premier Cru Supérieur</em> — eine Auszeichnung, die kein anderes Weingut besitzt. Quelle: <a href="https://gcc-1855.fr" target="_blank" style="color:var(--gold)">gcc-1855.fr</a>.</p>
-
-  <div class="filter-bar">
-    <label>Lage:</label>
-    <button class="fbtn on" onclick="filterSaut('all',this)">Alle (27)</button>
-    <button class="fbtn" onclick="filterSaut('sup',this)">Premier Cru Supérieur (1)</button>
-    <button class="fbtn" onclick="filterSaut('1er',this)">1er Cru (11)</button>
-    <button class="fbtn" onclick="filterSaut('2eme',this)">2ème Cru (15)</button>
-    <span style="width:1px;height:20px;background:var(--div);margin:0 6px;"></span>
-    <label>Appellation:</label>
-    <button class="fbtn" onclick="filterSautApp('Sauternes',this)">Sauternes</button>
-    <button class="fbtn" onclick="filterSautApp('Barsac',this)">Barsac</button>
-    <span style="width:1px;height:20px;background:var(--div);margin:0 6px;"></span>
-    <input type="text" class="fsearch" id="sautSearch" placeholder="Château suchen…" oninput="filterSautSearch()">
+<section id="p-sauternes" class="page">
+  <div class="eyebrow">Grands Crus Classés de Sauternes &amp; Barsac · 1855</div>
+  <h2 class="title">Sauternes <em>&amp; Barsac</em></h2>
+  <details class="info"><summary>Zur Klassifikation</summary><div>27 Châteaux wurden 1855 für ihre edelsüßen Botrytis-Weine klassifiziert. Einzig Château d'Yquem erhielt den Sonderstatus <i>Premier Cru Supérieur</i>, eine Auszeichnung, die kein anderes Weingut besitzt. Quelle: <a href="https://gcc-1855.fr" target="_blank" rel="noopener">gcc-1855.fr</a>.</div></details>
+  <div class="seg" id="s-seg">
+    <button data-v="chateaux" class="on">Châteaux</button>
+    <button data-v="vintages">Jahrgänge 1980–2024</button>
   </div>
-
-  <div class="tbl-wrap">
-    <table id="sauttable">
-      <thead>
-        <tr>
-          <th onclick="sortSaut(0)">Lage <span class="sort-arrow">↕</span></th>
-          <th onclick="sortSaut(1)">Château <span class="sort-arrow">↕</span></th>
-          <th onclick="sortSaut(2)">Appellation <span class="sort-arrow">↕</span></th>
-          <th>Rebsorten</th>
-          <th>Charakter & Notizen</th>
-        </tr>
-      </thead>
-      <tbody id="sauttbody"></tbody>
-    </table>
+  <div id="s-chateaux">
+    <div class="tools">
+      <div class="searchrow"><input class="search" id="s-q" type="search" placeholder="Château oder Stichwort…" autocomplete="off"></div>
+    </div>
+    <div class="label">Lage</div>
+    <div class="chips" id="s-cru"></div>
+    <div class="label">Appellation</div>
+    <div class="chips" id="s-app"></div>
+    <div class="resultbar"><span id="s-count"></span>
+      <select class="select" id="s-sort" aria-label="Sortierung"><option value="cru">Lage</option><option value="name">Château A–Z</option><option value="app">Appellation</option></select>
+    </div>
+    <div class="list cols" id="s-list"></div>
   </div>
-
-  <div class="divider"></div>
-  <span class="sec-label">Jahrgangstabelle Sauternes</span>
-  <h3 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--cream);margin-bottom:24px;">Sauternes-Jahrgänge <em style="font-style:italic;color:var(--goldl)">1980–2024</em></h3>
-  <div class="tbl-wrap">
-    <table id="vsauttable">
-      <thead>
-        <tr>
-          <th onclick="sortVSaut(0)">Jahr <span class="sort-arrow">↕</span></th>
-          <th onclick="sortVSaut(1)">Bewertung <span class="sort-arrow">↕</span></th>
-          <th>Botrytis-Qualität</th>
-          <th>Charakter & Notizen</th>
-        </tr>
-      </thead>
-      <tbody id="vsauttbody"></tbody>
-    </table>
+  <div id="s-vintages" hidden>
+    <div class="resultbar"><span id="sv-count"></span>
+      <select class="select" id="sv-sort" aria-label="Sortierung"><option value="year">Neueste zuerst</option><option value="avg">Beste zuerst</option><option value="old">Älteste zuerst</option></select>
+    </div>
+    <div class="list cols" id="sv-list"></div>
   </div>
-</div>
-</div>
+</section>
+</main>
 
 <footer>
-  <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--cream);margin-bottom:10px;">Bordeaux — Guide des Grands Vins</p>
-  <p>Quellen: <a href="https://gcc-1855.fr" target="_blank">gcc-1855.fr (offizielle 1855-Klassifikation)</a> · <a href="https://www.thewinecellarinsider.com" target="_blank">Wine Cellar Insider</a> · <a href="https://www.jancisrobinson.com" target="_blank">Jancis Robinson MW</a> · <a href="https://www.winespectator.com" target="_blank">Wine Spectator</a> · <a href="https://www.decanter.com" target="_blank">Decanter</a> · <a href="https://www.bordeaux.com" target="_blank">Bordeaux.com</a></p>
-  <p style="margin-top:8px;font-size:9px;">Jahrgangsbewertungen sind konsolidierte Expertenmeinungen. Keine Gewähr. Konsultieren Sie stets aktuelle Primärquellen.</p>
+  <b>Bordeaux — Guide des Grands Vins</b>
+  Quellen: <a href="https://gcc-1855.fr" target="_blank" rel="noopener">gcc-1855.fr (offizielle 1855-Klassifikation)</a> · <a href="https://www.thewinecellarinsider.com" target="_blank" rel="noopener">Wine Cellar Insider</a> · <a href="https://www.jancisrobinson.com" target="_blank" rel="noopener">Jancis Robinson MW</a> · <a href="https://www.winespectator.com" target="_blank" rel="noopener">Wine Spectator</a> · <a href="https://www.decanter.com" target="_blank" rel="noopener">Decanter</a> · <a href="https://www.bordeaux.com" target="_blank" rel="noopener">Bordeaux.com</a><br>
+  Jahrgangsbewertungen sind konsolidierte Expertenmeinungen. Keine Gewähr. Konsultieren Sie stets aktuelle Primärquellen.<br>
+  <a href="https://attallah.de">← attallah.de</a> · <a href="https://attallah.de/suedafrika/">Südafrika — Guide der großen Kap-Weine</a>
+  <details class="changelog" id="versionen"><summary id="verSum"></summary><ol id="verList"></ol></details>
 </footer>
 
 <script>
 // =============================================
-// PAGE NAVIGATION
-// =============================================
-function showPage(id, el) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  if (el) el.classList.add('active');
-  else {
-    document.querySelectorAll('.nav-item').forEach(n => {
-      if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + id + "'")) n.classList.add('active');
-    });
-  }
-  window.scrollTo(0, 0);
-}
-
-// =============================================
-// SCORE CLASS
-// =============================================
-function sc(s) {
-  if (!s || s === '-') return 's0';
-  s = parseInt(s);
-  if (s >= 96) return 's100';
-  if (s >= 90) return 's95';
-  if (s >= 85) return 's90';
-  if (s >= 80) return 's85';
-  if (s >= 75) return 's80';
-  if (s >= 70) return 's75';
-  return 's70';
-}
-function scBadge(s) {
-  if (!s || s === 0) return '<span class="sc s0">—</span>';
-  return `<span class="sc ${sc(s)}">${s}</span>`;
-}
-
-// =============================================
-// APPELLATIONEN DATA
+// DATEN
 // =============================================
 const appellations = [
   { name: 'Bordeaux & Bordeaux Supérieur', color: '#D03030', type: 'Rote · Rosé · Clairet', desc: 'Die breiteste Basis-Appellation der Region mit über 40.000 ha. Überwiegend Merlot, Cabernet Sauvignon und Cabernet Franc. Bordeaux Supérieur erfordert 0,5% mehr Alkohol und niedrigere Erträge.', subs: ['Bordeaux rouge', 'Bordeaux Supérieur rouge', 'Bordeaux rosé', 'Bordeaux clairet', 'Ste-Foy-Bordeaux'] },
@@ -354,21 +342,6 @@ const appellations = [
   { name: 'Vins Blancs Secs — Trockene Weiße', color: '#D4C050', type: 'Trocken · Sauvignon Blanc · Sémillon', desc: 'Zwischen Garonne und Dordogne (Entre-Deux-Mers) entstehen frische, mineralische Weißweine. Sauvignon Blanc dominiert, oft mit Sémillon verschnitten. Pessac-Léognan liefert die edelsten Vertreter.', subs: ['Entre-Deux-Mers', 'Entre-Deux-Mers Haut-Benauge', 'Bordeaux Blanc', 'Bordeaux Haut-Benauge', 'Blaye Côtes de Bordeaux blanc', 'Premières Côtes de Blaye', 'Crémant de Bordeaux'] },
 ];
 
-function renderAppellations() {
-  const g = document.getElementById('appGrid');
-  g.innerHTML = appellations.map(a => `
-    <div class="app-card">
-      <div class="app-name"><span class="app-dot" style="background:${a.color}"></span>${a.name}</div>
-      <div class="app-type">${a.type}</div>
-      <div class="app-desc">${a.desc}</div>
-      <div class="app-subs">${a.subs.map(s => `<span class="app-sub">${s}</span>`).join('')}</div>
-    </div>`).join('');
-}
-renderAppellations();
-
-// =============================================
-// VINTAGE DATA (consolidated TWCI + Jancis + WS + Decanter)
-// =============================================
 const vintages = [
   { y:2024, p:83, mg:83, es:82, pe:85, pm:81, em:82, st:87, note:'Regen & Mehltau; Merlot litt stark, Cab.Sauv. überlegen. Sauternes gerettet durch Botrytis. Sehr selektiv kaufen.', drink:'2026–2032' },
   { y:2023, p:93, mg:92, es:92, pe:93, pm:93, em:93, st:90, note:'Klassischer moderner Stil. Niedriger Alkohol, frische Frucht, weiches Tannin. Beides (links & rechts) empfehlenswert.', drink:'2027–2042' },
@@ -377,27 +350,27 @@ const vintages = [
   { y:2020, p:96, mg:96, es:95, pe:96, pm:96, em:96, st:90, note:'Heiß & trocken — nahe perfekter Reife. Kraftvoll aber ausgewogen. Beide Ufer außergewöhnlich.', drink:'2027–2055' },
   { y:2019, p:95, mg:95, es:95, pe:95, pm:96, em:95, st:93, note:'Eines der besten der letzten 20 Jahre. Reifes Tannin, perfekte Balance. Pomerol hervorragend.', drink:'2026–2055' },
   { y:2018, p:94, mg:94, es:93, pe:94, pm:95, em:95, st:91, note:'Warm und trocken. Kräftig, opulent, tiefdunkel. Rechtes Ufer sehr stark. Fette Tannine.', drink:'2025–2050' },
-  { y:2017, p:88, mg:87, es:88, pe:88, pm:85, em:85, st:88, note:'Frost April 2017: schlimmstes seit 1991. Médoc erholte sich, Rechtes Ufer unregelmäßig. Trikbar, kein Klassiker.', drink:'2023–2035' },
+  { y:2017, p:88, mg:87, es:88, pe:88, pm:85, em:85, st:88, note:'Frost April 2017: schlimmstes seit 1991. Médoc erholte sich, Rechtes Ufer unregelmäßig. Trinkbar, kein Klassiker.', drink:'2023–2035' },
   { y:2016, p:99, mg:99, es:97, pe:97, pm:96, em:95, st:88, note:'BESTES Médoc-Jahr in Jahrzehnten. Margaux absolut phänomenal. Klassisch + langlebig + universell gelobt.', drink:'2026–2060+' },
   { y:2015, p:93, mg:93, es:92, pe:93, pm:94, em:94, st:92, note:'Warm, sonnig, perfekte Reife. Opulent und zugänglich. Beide Ufer stark. Sauternes hervorragend.', drink:'2024–2048' },
   { y:2014, p:91, mg:90, es:91, pe:91, pm:89, em:89, st:87, note:'Klassisch, elegant, Médoc übertrifft Rechtes Ufer. Ausgezeichnetes Preis-Leistungs-Verhältnis. Geduldig.', drink:'2024–2044' },
   { y:2013, p:83, mg:82, es:82, pe:83, pm:82, em:82, st:85, note:'Schwieriges Regenjahr. Wenig Empfehlenswertes außer Top-Châteaux. Nur mit Expertise kaufen.', drink:'2022–2030' },
-  { y:2012, p:87, mg:86, es:87, pe:88, pm:88, em:88, st:86, note:'Unterschätzter Jahrgang. Elegant, trikbar. Rechtes Ufer gleichwertig Médoc. Gutes Preis-Leistungs-Potential.', drink:'2023–2038' },
+  { y:2012, p:87, mg:86, es:87, pe:88, pm:88, em:88, st:86, note:'Unterschätzter Jahrgang. Elegant, trinkbar. Rechtes Ufer gleichwertig Médoc. Gutes Preis-Leistungs-Potential.', drink:'2023–2038' },
   { y:2011, p:85, mg:85, es:85, pe:86, pm:85, em:85, st:94, note:'Unregelmäßig bei Roten. Pessac-Léognan hebt sich ab. Sauternes hervorragend (Botrytis perfekt).', drink:'2023–2038 / Saut: 2025–2055' },
   { y:2010, p:97, mg:97, es:96, pe:97, pm:98, em:97, st:96, note:'DAS PERFEKTE JAHR. Konzentration + Balance + Frische = Gleichgewicht. Pomerol legendär. Für Ewigkeit.', drink:'2025–2065+' },
   { y:2009, p:95, mg:95, es:94, pe:95, pm:98, em:96, st:93, note:'Opulentes Meisterjahr. Petrus, Lafleur unerreicht. Reif, zugänglich früher als 2010. Legendär.', drink:'2022–2060' },
-  { y:2008, p:88, mg:88, es:88, pe:88, pm:88, em:87, st:85, note:'Unterschätzt und preiswert. Kühl, klassisch, trikbar. Strukturiert, jetzt auf Höhepunkt.', drink:'2022–2036' },
+  { y:2008, p:88, mg:88, es:88, pe:88, pm:88, em:87, st:85, note:'Unterschätzt und preiswert. Kühl, klassisch, trinkbar. Strukturiert, jetzt auf Höhepunkt.', drink:'2022–2036' },
   { y:2007, p:83, mg:83, es:82, pe:85, pm:84, em:83, st:95, note:'Schwieriges Rotweinjahr (Regen). Pessac-Léognan übertraf Médoc. Sauternes: außergewöhnlich (beste seit 2001).', drink:'Rot: trinken / Saut: 2025–2055' },
-  { y:2006, p:87, mg:87, es:87, pe:88, pm:87, em:87, st:88, note:'Solider Médoc-Jahrgang. Cab.Sauv. übertraf Merlot. Trikbar, kein Langläufer. Gut für Einsteiger.', drink:'2022–2034' },
+  { y:2006, p:87, mg:87, es:87, pe:88, pm:87, em:87, st:88, note:'Solider Médoc-Jahrgang. Cab.Sauv. übertraf Merlot. Trinkbar, kein Langläufer. Gut für Einsteiger.', drink:'2022–2034' },
   { y:2005, p:96, mg:96, es:95, pe:96, pm:96, em:96, st:94, note:'Klassisch großartig. Perfektes Wetter. Langlebig für alle Regionen. Beide Ufer außergewöhnlich.', drink:'2023–2058' },
   { y:2004, p:86, mg:86, es:86, pe:87, pm:87, em:87, st:86, note:'Zu Unrecht überschattet von 2003 und 2005. Klassisch, elegant. Selektiv kaufen, jetzt trinken.', drink:'2022–2032' },
-  { y:2003, p:90, mg:90, es:89, pe:92, pm:93, em:93, st:85, note:'Hitzejahr (Rekordtemperaturen). Atypisch, früh trikbar, wenig Finesse. Pomerol/St-Émilion stark, Médoc unregelmäßig.', drink:'Trinken jetzt / Pomerol: bis 2035' },
+  { y:2003, p:90, mg:90, es:89, pe:92, pm:93, em:93, st:85, note:'Hitzejahr (Rekordtemperaturen). Atypisch, früh trinkbar, wenig Finesse. Pomerol/St-Émilion stark, Médoc unregelmäßig.', drink:'Trinken jetzt / Pomerol: bis 2035' },
   { y:2002, p:86, mg:86, es:85, pe:87, pm:85, em:85, st:87, note:'Verregnete Ernte. Médoc passabel. Rechtes Ufer enttäuschend. Pessac-Léognan hob sich ab.', drink:'2022–2030' },
   { y:2001, p:88, mg:88, es:87, pe:88, pm:90, em:90, st:96, note:'Rechtes Ufer exzellent. Sauternes legendär (beste seit 1990). Médoc solide bis gut.', drink:'Rot: 2023–2035 / Saut: bis 2050+' },
   { y:2000, p:96, mg:96, es:95, pe:95, pm:97, em:96, st:88, note:'Jahrtausendjahrgang. Links- und Rechts-Ufer außergewöhnlich. Teuer aber berechtigt. Langlebig.', drink:'2025–2060+' },
-  { y:1999, p:85, mg:85, es:84, pe:85, pm:87, em:86, st:89, note:'Solid, nicht aufregend. Merlot besser als Cabernet. Trikbar, kein Sammlerstück.', drink:'Trinken jetzt' },
+  { y:1999, p:85, mg:85, es:84, pe:85, pm:87, em:86, st:89, note:'Solid, nicht aufregend. Merlot besser als Cabernet. Trinkbar, kein Sammlerstück.', drink:'Trinken jetzt' },
   { y:1998, p:87, mg:87, es:87, pe:88, pm:96, em:92, st:90, note:'Pomerol-Jahrgang schlechthin. Petrus magnificent. Médoc solide bis gut. Sauternes sehr gut.', drink:'Pom: bis 2040 / Médoc: trinken' },
-  { y:1997, p:80, mg:80, es:80, pe:82, pm:83, em:82, st:88, note:'Früh trikbar, weich, zugänglich. Wenig Lager-Potenzial. Heute größtenteils am Limit.', drink:'Trinken — spät' },
+  { y:1997, p:80, mg:80, es:80, pe:82, pm:83, em:82, st:88, note:'Früh trinkbar, weich, zugänglich. Wenig Lager-Potenzial. Heute größtenteils am Limit.', drink:'Trinken — spät' },
   { y:1996, p:93, mg:94, es:91, pe:92, pm:87, em:88, st:88, note:'Klassischer Médoc-Jahrgang. Margaux überragend. Rechtes Ufer enttäuschte relativ. Lagerfähig.', drink:'2023–2045' },
   { y:1995, p:90, mg:91, es:90, pe:90, pm:91, em:91, st:91, note:'Elegant und ausgewogen. Beide Ufer stark. Guter Trinkhorizont noch offen.', drink:'2022–2040' },
   { y:1994, p:85, mg:85, es:84, pe:85, pm:86, em:85, st:84, note:'Verregnete Ernte. Enttäuschend nach 1990. Heute am Limit oder darüber.', drink:'Trinken — spät' },
@@ -413,99 +386,10 @@ const vintages = [
   { y:1984, p:74, mg:73, es:73, pe:75, pm:74, em:73, st:72, note:'Kalt, schwach. Meiden. Heute sicher am Ende.', drink:'Überschritten' },
   { y:1983, p:88, mg:95, es:87, pe:88, pm:87, em:87, st:95, note:'Margaux überragend (bester Jahrgang des 20. Jh. für diese Appellation). Sauternes legendär. Médoc gut aber ungleich.', drink:'Margaux: jetzt trinken / Saut: jetzt' },
   { y:1982, p:98, mg:96, es:95, pe:95, pm:99, em:98, st:86, note:'DER JAHRGANG DES JAHRHUNDERTS. Pomerol (Pétrus) unerreicht. Robert Parkers Karriere-Jahrgang. Linkes Ufer außergewöhnlich.', drink:'2022–2055' },
-  { y:1981, p:83, mg:83, es:82, pe:83, pm:84, em:83, st:85, note:'Anständig aber bescheiden nach 1982. Heute größtenteils trikbar oder überschritten.', drink:'Trinken — spät' },
+  { y:1981, p:83, mg:83, es:82, pe:83, pm:84, em:83, st:85, note:'Anständig aber bescheiden nach 1982. Heute größtenteils trinkbar oder überschritten.', drink:'Trinken — spät' },
   { y:1980, p:70, mg:70, es:69, pe:71, pm:70, em:70, st:75, note:'Schlechter Jahrgang. Vermeiden. Heute überschritten.', drink:'Überschritten' },
 ];
 
-let vtSortCol = 0, vtSortDir = 1, vtFilter = 'all', vtColFilter = 'all';
-
-function avgScore(v) {
-  const vals = [v.p, v.mg, v.es, v.pe, v.pm, v.em, v.st].filter(x => x > 0);
-  return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
-}
-
-function vtQuality(v) {
-  const a = avgScore(v);
-  if (a >= 96) return 'leg';
-  if (a >= 90) return 'exc';
-  if (a >= 85) return 'vgood';
-  if (a >= 80) return 'good';
-  return 'poor';
-}
-
-function renderVintage() {
-  let data = vintages.filter(v => {
-    if (vtFilter === 'all') return true;
-    return vtQuality(v) === vtFilter;
-  });
-  data = [...data].sort((a, b) => {
-    const vals = [r => r.y, r => r.p, r => r.mg, r => r.es, r => r.pe, r => r.pm, r => r.em, r => r.st, r => avgScore(r)];
-    return (vals[vtSortCol](a) - vals[vtSortCol](b)) * vtSortDir;
-  });
-  const leftCols = [1, 2, 3, 4];
-  const rightCols = [5, 6];
-  const sautCols = [7];
-  document.querySelectorAll('#vtable th').forEach((th, i) => {
-    th.classList.toggle('sorted', i === vtSortCol);
-  });
-  const showLeft = vtColFilter === 'all' || vtColFilter === 'left';
-  const showRight = vtColFilter === 'all' || vtColFilter === 'right';
-  const showSaut = vtColFilter === 'all' || vtColFilter === 'saut';
-  document.querySelectorAll('.col-left').forEach(el => el.style.display = showLeft ? '' : 'none');
-  // Separate handling for th that appears in both groups
-  document.querySelectorAll('#vtable th[class*="col-left col-right"]').forEach(el => el.style.display = (showLeft || showRight) ? '' : 'none');
-  document.querySelectorAll('.col-saut').forEach(el => el.style.display = showSaut ? '' : 'none');
-
-  document.getElementById('vtbody').innerHTML = data.map(v => {
-    const avg = avgScore(v);
-    const ql = vtQuality(v);
-    const qlLabel = { leg: '★ Legendär', exc: 'Exzellent', vgood: 'Sehr gut', good: 'Gut', poor: 'Schwach' }[ql];
-    const qlColor = { leg: 'var(--gold)', exc: '#9C7530', vgood: '#8A7050', good: '#8A8078', poor: 'var(--dim)' }[ql];
-    return `<tr data-ql="${ql}">
-      <td><span class="yr-cell">${v.y}</span><br><span style="font-size:9px;color:${qlColor};letter-spacing:.15em;">${qlLabel}</span></td>
-      <td class="col-left col-right">${scBadge(v.p)}</td>
-      <td class="col-left">${scBadge(v.mg)}</td>
-      <td class="col-left">${scBadge(v.es)}</td>
-      <td class="col-left">${scBadge(v.pe)}</td>
-      <td class="col-right">${scBadge(v.pm)}</td>
-      <td class="col-right">${scBadge(v.em)}</td>
-      <td class="col-saut">${scBadge(v.st)}</td>
-      <td>${scBadge(avg)}</td>
-      <td><span class="vintage-note">${v.note}<br><span style="color:var(--gold);font-size:9px;">🍷 ${v.drink}</span></span></td>
-    </tr>`;
-  }).join('');
-  // Re-apply column visibility to TD
-  document.querySelectorAll('#vtbody .col-left').forEach(el => el.style.display = showLeft ? '' : 'none');
-  document.querySelectorAll('#vtbody td:nth-child(2)').forEach(el => el.style.display = (showLeft || showRight) ? '' : 'none');
-  document.querySelectorAll('#vtbody .col-right:not(:nth-child(2))').forEach(el => el.style.display = showRight ? '' : 'none');
-  document.querySelectorAll('#vtbody .col-saut').forEach(el => el.style.display = showSaut ? '' : 'none');
-}
-
-function filterVintage(f, btn) {
-  vtFilter = f;
-  document.querySelectorAll('#page-vintage .filter-bar .fbtn').forEach(b => {
-    if (['all','leg','exc','vgood','good','poor'].includes(b.getAttribute('onclick').match(/'(\w+)'/)?.[1])) b.classList.remove('on');
-  });
-  btn.classList.add('on');
-  renderVintage();
-}
-function setVCol(f, btn) {
-  vtColFilter = f;
-  document.querySelectorAll('#page-vintage .filter-bar .fbtn').forEach(b => {
-    if (['all','left','right','saut'].includes(b.getAttribute('onclick').match(/'(\w+)'/)?.[1])) b.classList.remove('on');
-  });
-  btn.classList.add('on');
-  renderVintage();
-}
-function sortVt(col) {
-  if (vtSortCol === col) vtSortDir *= -1; else { vtSortCol = col; vtSortDir = -1; }
-  renderVintage();
-}
-renderVintage();
-
-// =============================================
-// 1855 GCC MEDOC DATA (from gcc-1855.fr official PDF)
-// =============================================
 const gcc = [
   // PREMIERS CRUS
   { cru:'1', name:'Château Lafite Rothschild', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Quintessenz der Eleganz. Cedar, Bleistift, florales Bouquet. Baron Eric de Rothschild. Langlebigster der Premiers.' },
@@ -563,7 +447,7 @@ const gcc = [
   { cru:'5', name:'Château Lynch-Bages', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Super Fifth — Publikumsliebling weltweit. Cazes-Familie. "Lynch-Bages du Peuple". Opulent.' },
   { cru:'5', name:'Château Lynch-Moussas', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot', note:'Casteja-Familie. Solide, zugänglich. Preiswert im Vergleich zu Lynch-Bages.' },
   { cru:'5', name:'Château Dauzac', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot', note:'MAIF-Versicherung. André Lurton verbesserte ab 1992. Aromatisch, modern.' },
-  { cru:'5', name:'Château d\'Armailhac', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Rothschild (Mouton-Nachbar). Früher Mouton Baronne Philippe. Fruchtig, früh trikbar.' },
+  { cru:'5', name:'Château d\'Armailhac', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Rothschild (Mouton-Nachbar). Früher Mouton Baronne Philippe. Fruchtig, früh trinkbar.' },
   { cru:'5', name:'Château du Tertre', app:'Margaux', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'Hügelterrain. Ginestet/Albada Jelgersma. Ruhig, unterschätzt. Rein, delikat.' },
   { cru:'5', name:'Château Haut-Bages Libéral', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot', note:'Claire Villars. Stark aufgestiegen. Nahe Latour. Dunkle Frucht, Kraft.' },
   { cru:'5', name:'Château Pédesclaux', app:'Pauillac', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc', note:'Juglar-Roux. Komplette Renovation. Modern, konzentriert.' },
@@ -575,58 +459,6 @@ const gcc = [
   { cru:'5', name:'Château Cantemerle', app:'Haut-Médoc', grapes:'Cabernet Sauvignon, Merlot, Cab. Franc, Petit Verdot', note:'1856 nachträglich ergänzt (versehentlich ausgelassen). SMA-Besitz. Zugänglich, floral, preiswert.' },
 ];
 
-let gccFilter = 'all', gccAppFilter = 'all', gccSortCol = 0, gccSortDir = 1;
-
-const cruLabel = { '1':'1er Cru', '2':'2ème Cru', '3':'3ème Cru', '4':'4ème Cru', '5':'5ème Cru' };
-const cruColor = { '1':'#C9A84C', '2':'#A07838', '3':'#805028', '4':'#603818', '5':'#442818' };
-
-function renderGCC() {
-  let data = gcc.filter(c => {
-    const search = document.getElementById('gccSearch')?.value.toLowerCase() || '';
-    const matchCru = gccFilter === 'all' || c.cru === gccFilter;
-    const matchApp = gccAppFilter === 'all' || c.app.includes(gccAppFilter);
-    const matchSearch = !search || c.name.toLowerCase().includes(search) || c.app.toLowerCase().includes(search) || c.note.toLowerCase().includes(search);
-    return matchCru && matchApp && matchSearch;
-  });
-  data = [...data].sort((a, b) => {
-    const keys = ['cru','name','app'];
-    const av = keys[gccSortCol] === 'cru' ? parseInt(a.cru) : a[keys[gccSortCol]];
-    const bv = keys[gccSortCol] === 'cru' ? parseInt(b.cru) : b[keys[gccSortCol]];
-    if (typeof av === 'number') return (av - bv) * gccSortDir;
-    return av.localeCompare(bv) * gccSortDir;
-  });
-  document.getElementById('gcctbody').innerHTML = data.map(c => `
-    <tr>
-      <td><span style="display:inline-block;padding:3px 10px;background:${cruColor[c.cru]};color:var(--on-bx);font-size:9px;letter-spacing:.2em;white-space:nowrap;">${cruLabel[c.cru]}</span></td>
-      <td style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream);font-weight:400;">${c.name}</td>
-      <td><span style="font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);">${c.app}</span></td>
-      <td style="font-size:10.5px;color:var(--dim);">${c.grapes}</td>
-      <td style="font-size:10.5px;color:var(--dim);max-width:260px;line-height:1.55;">${c.note}</td>
-    </tr>`).join('');
-}
-
-function filterGCC(f, btn) {
-  gccFilter = f; gccAppFilter = 'all';
-  document.querySelectorAll('#page-class1855 .filter-bar .fbtn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  renderGCC();
-}
-function filterGCCapp(f, btn) {
-  gccAppFilter = f; gccFilter = 'all';
-  document.querySelectorAll('#page-class1855 .filter-bar .fbtn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  renderGCC();
-}
-function filterGCCsearch() { renderGCC(); }
-function sortGCC(col) {
-  if (gccSortCol === col) gccSortDir *= -1; else { gccSortCol = col; gccSortDir = 1; }
-  renderGCC();
-}
-renderGCC();
-
-// =============================================
-// SAUTERNES 1855 DATA (from gcc-1855.fr official PDF)
-// =============================================
 const sautData = [
   // PREMIER CRU SUPERIEUR
   { cru:'sup', name:'Château d\'Yquem', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc', note:'Premier Cru Supérieur — einzige dieser Auszeichnung weltweit. LVMH. Legendäre Konzentration, 100-Jahres-Haltbarkeit. Botrytis-Perfektion.' },
@@ -660,58 +492,9 @@ const sautData = [
   { cru:'2eme', name:'Château Lamothe-Guignard', app:'Sauternes', grapes:'Sémillon, Sauvignon Blanc, Muscadelle', note:'2ème Cru. Guignard-Familie. Stark verbessert seit 1980er. Modern, fruchtig.' },
 ];
 
-const sautCruLabel = { sup:'Premier Cru Supérieur', '1er':'1er Cru', '2eme':'2ème Cru' };
-const sautCruColor = { sup:'#C9A84C', '1er':'#9B6828', '2eme':'#6B4818' };
-
-let sautCruFilter = 'all', sautAppFilter_ = 'all', sautSortCol = 0, sautSortDir = 1;
-
-function renderSaut() {
-  let data = sautData.filter(c => {
-    const search = document.getElementById('sautSearch')?.value.toLowerCase() || '';
-    const matchCru = sautCruFilter === 'all' || c.cru === sautCruFilter;
-    const matchApp = sautAppFilter_ === 'all' || c.app === sautAppFilter_;
-    const matchSearch = !search || c.name.toLowerCase().includes(search) || c.note.toLowerCase().includes(search);
-    return matchCru && matchApp && matchSearch;
-  });
-  data = [...data].sort((a, b) => {
-    const order = { sup: 0, '1er': 1, '2eme': 2 };
-    const keys = [r => order[r.cru], r => r.name, r => r.app];
-    const av = keys[sautSortCol](a), bv = keys[sautSortCol](b);
-    if (typeof av === 'number') return (av - bv) * sautSortDir;
-    return av.localeCompare(bv) * sautSortDir;
-  });
-  document.getElementById('sauttbody').innerHTML = data.map(c => `
-    <tr>
-      <td><span style="display:inline-block;padding:3px 10px;background:${sautCruColor[c.cru]};color:var(--cream);font-size:9px;letter-spacing:.2em;font-weight:600;white-space:nowrap;">${sautCruLabel[c.cru]}</span></td>
-      <td style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream);font-weight:400;">${c.name}</td>
-      <td><span style="font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);">${c.app}</span></td>
-      <td style="font-size:10.5px;color:var(--dim);">${c.grapes}</td>
-      <td style="font-size:10.5px;color:var(--dim);max-width:260px;line-height:1.55;">${c.note}</td>
-    </tr>`).join('');
-}
-function filterSaut(f, btn) {
-  sautCruFilter = f; sautAppFilter_ = 'all';
-  document.querySelectorAll('#page-sauternes .filter-bar:first-of-type .fbtn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  renderSaut();
-}
-function filterSautApp(f, btn) {
-  sautAppFilter_ = f; sautCruFilter = 'all';
-  document.querySelectorAll('#page-sauternes .filter-bar:first-of-type .fbtn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  renderSaut();
-}
-function filterSautSearch() { renderSaut(); }
-function sortSaut(col) {
-  if (sautSortCol === col) sautSortDir *= -1; else { sautSortCol = col; sautSortDir = 1; }
-  renderSaut();
-}
-renderSaut();
-
-// SAUTERNES VINTAGE TABLE
 const sautVint = [
   { y:2024, s:87, bot:'Mittelmäßig — Late botrytis nach Regen', note:'Trotz Widrigkeiten solide Botrytis Ende Oktober. Frisch, säurebetont.' },
-  { y:2023, s:90, bot:'Gut — Unregelmäßige Botrytis', note:'Gute Qualität. Frisch, weniger opulent als 2021. Trikbar und elegant.' },
+  { y:2023, s:90, bot:'Gut — Unregelmäßige Botrytis', note:'Gute Qualität. Frisch, weniger opulent als 2021. Trinkbar und elegant.' },
   { y:2022, s:96, bot:'Ausgezeichnet — Konzentriert', note:'Extrem wenig Menge (Frost + Trockenheit). Was gemacht wurde: brillant konzentriert.' },
   { y:2021, s:85, bot:'Durchschnittlich', note:'Frost vernichtete große Teile. Wenige, gute Weine.' },
   { y:2020, s:90, bot:'Gut — Trockenes Jahr', note:'Wenig Botrytis. Konzentrierte, elegante Weine durch Eintrocknung.' },
@@ -725,10 +508,10 @@ const sautVint = [
   { y:2012, s:86, bot:'Gut', note:'Anständige Botrytis. Frisch, ohne Tiefe der Spitzenjahrgänge.' },
   { y:2011, s:94, bot:'Sehr gut — Spät und irregulär', note:'Spät aber brilliant. Delikat, elegant, frisch. Unterbewertetes Sauternes-Jahr.' },
   { y:2010, s:96, bot:'Ausgezeichnet', note:'Fantastisch reich und konzentriert. Tiefe und Frische in Harmonie.' },
-  { y:2009, s:93, bot:'Sehr gut — Üppig', note:'Reichhaltige, opulente Weine. Früher trikbar, weniger Eleganz als 2010.' },
+  { y:2009, s:93, bot:'Sehr gut — Üppig', note:'Reichhaltige, opulente Weine. Früher trinkbar, weniger Eleganz als 2010.' },
   { y:2008, s:85, bot:'Durchschnittlich', note:'Solide. Frisch. Wenig Botrytis-Tiefe.' },
   { y:2007, s:95, bot:'Ausgezeichnet — Perfekte Botrytis', note:'Bestes Sauternes seit 2001. Perfekte Bedingungen. Hohe Säure + Süße = Brillanz.' },
-  { y:2006, s:88, bot:'Gut', note:'Anständig. Trikbar, ohne Komplexität der Spitzenjahre.' },
+  { y:2006, s:88, bot:'Gut', note:'Anständig. Trinkbar, ohne Komplexität der Spitzenjahre.' },
   { y:2005, s:94, bot:'Sehr gut', note:'Klassisch, reich, komplex. Langlebig. Empfohlen.' },
   { y:2004, s:86, bot:'Gut', note:'Solide. Frisch. Früh zugänglich.' },
   { y:2003, s:85, bot:'Schwach — Hitzejahr vernichtete Botrytis', note:'Kein Botrytis = wenig Charakter. Einige Güter machten keinen edelsüßen Wein (Yquem, Rieussec etc.).' },
@@ -738,7 +521,7 @@ const sautVint = [
   { y:1999, s:89, bot:'Sehr gut', note:'Gute Botrytis. Eleganz und Frische. Preiswert.' },
   { y:1998, s:90, bot:'Sehr gut', note:'Konzentriert, opulent. Näher an 1997 als 2001-Stil.' },
   { y:1997, s:88, bot:'Gut', note:'Anständig, früh zugänglich, etwas einfach.' },
-  { y:1996, s:88, bot:'Gut', note:'Frisch, elegant. Trikbar.' },
+  { y:1996, s:88, bot:'Gut', note:'Frisch, elegant. Trinkbar.' },
   { y:1995, s:91, bot:'Sehr gut', note:'Reich, komplex. Gut gelagert noch exzellent.' },
   { y:1994, s:84, bot:'Durchschnittlich', note:'Regen störte Botrytis. Solide, wenig Tiefe.' },
   { y:1993, s:80, bot:'Schwach', note:'Regen. Wenig Edelfäule. Schwaches Jahr.' },
@@ -753,32 +536,181 @@ const sautVint = [
   { y:1984, s:72, bot:'Schwach', note:'Schlechtes Jahr. Meiden.' },
   { y:1983, s:95, bot:'Ausgezeichnet', note:'Legendäres Sauternes-Jahr. Yquem absolut brillant. Jetzt auf Höhepunkt.' },
   { y:1982, s:86, bot:'Gut', note:'Solide für Sauternes. Cabernet dominierte dieses Jahr. Rot > Weiß.' },
-  { y:1981, s:85, bot:'Gut', note:'Anständig, trikbar.' },
+  { y:1981, s:85, bot:'Gut', note:'Anständig, trinkbar.' },
   { y:1980, s:75, bot:'Durchschnittlich', note:'Wenig Botrytis. Schwaches Sauternes-Jahr.' },
 ];
 
-let vSautSortCol = 0, vSautSortDir = -1;
-
-function renderVSaut(data) {
-  document.getElementById('vsauttbody').innerHTML = data.map(v => {
-    const cls = sc(v.s);
-    const botColor = v.s >= 94 ? 'var(--gold)' : v.s >= 88 ? '#9C7A3E' : v.s >= 83 ? '#8A7A50' : 'var(--dim)';
-    return `<tr>
-      <td><span class="yr-cell">${v.y}</span></td>
-      <td>${scBadge(v.s)}</td>
-      <td style="font-size:10.5px;color:${botColor};">${v.bot}</td>
-      <td style="font-size:10.5px;color:var(--dim);max-width:300px;line-height:1.55;">${v.note}</td>
-    </tr>`;
-  }).join('');
+// =============================================
+// HILFSFUNKTIONEN
+// =============================================
+const $ = id => document.getElementById(id);
+const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+function scClass(s) { return !s ? 's0' : s >= 96 ? 's96' : s >= 90 ? 's90' : s >= 85 ? 's85' : s >= 80 ? 's80' : s >= 75 ? 's75' : 's0'; }
+const scBadge = (s, sm) => `<span class="sc ${sm ? 'sm ' : ''}${scClass(s)}">${s || '—'}</span>`;
+const chipsHtml = (items, cur) => items.map(([k, l, n]) => `<button class="chip${k === cur ? ' on' : ''}" data-v="${k}">${l}${n != null ? `<small>${n}</small>` : ''}</button>`).join('');
+function onChip(el, fn) {
+  el.addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    el.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === b)); fn(b.dataset.v);
+  });
+}
+function onSeg(el, fn) {
+  el.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    el.querySelectorAll('button').forEach(c => c.classList.toggle('on', c === b)); fn(b.dataset.v);
+  });
 }
 
-function sortVSaut(col) {
-  if (vSautSortCol === col) vSautSortDir *= -1; else { vSautSortCol = col; vSautSortDir = -1; }
-  const keys = [v => v.y, v => v.s];
-  let data = [...sautVint].sort((a, b) => (keys[Math.min(col, 1)](a) - keys[Math.min(col, 1)](b)) * vSautSortDir);
-  renderVSaut(data);
+// Versionen (neueste zuerst)
+const changelog = [
+  ['2.0', '27.10.2026', 'Neugestaltung im Look &amp; Feel des Südafrika-Guides: mobile-first mit Tab-Leiste, Dunkelmodus, Karten statt Tabellen, kombinierbare Filter und Suche, direkte Links auf jede Seite (z. B. #jahrgaenge), Versionsnummer und diese Änderungsliste. Ø und Qualitätsfilter der Jahrgänge beziehen sich jetzt auf die gewählte Region. Tippfehler „trikbar“ korrigiert.'],
+  ['1.1', '21.09.2026', 'Helles Farbschema im Stil eines Weinetiketts'],
+  ['1.0', '16.09.2026', 'Übernahme von attallah.de (Strato): Appellationen, Jahrgänge 1980–2024, Klassifikation 1855, Sauternes &amp; Barsac'],
+];
+$('verBtn').textContent = `(v${changelog[0][0]})`;
+$('verSum').textContent = `Version ${changelog[0][0]} · ${changelog[0][1]} · Änderungen`;
+$('verList').innerHTML = changelog.map(([v, d, t]) => `<li><b>v${v}</b> · ${d}<br>${t}</li>`).join('');
+$('verBtn').addEventListener('click', () => { const d = $('versionen'); d.open = true; d.scrollIntoView({ behavior:'smooth', block:'end' }); });
+
+// =============================================
+// ROUTING (Hash, damit die Zurück-Geste funktioniert)
+// =============================================
+const routes = { start:['start'], appellationen:['appellationen'], jahrgaenge:['jahrgaenge'], 'linkes-ufer':['jahrgaenge','left'], 'rechtes-ufer':['jahrgaenge','right'], medoc:['medoc'], sauternes:['sauternes','chateaux'], 'sauternes-jahrgaenge':['sauternes','vintages'] };
+function route() {
+  const key = decodeURIComponent((location.hash || '#start').slice(1));
+  const [page, sub] = routes[key] || routes.start;
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('on', p.id === 'p-' + page));
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.p === page));
+  if (page === 'jahrgaenge' && sub) setVCol(sub);
+  if (page === 'sauternes' && sub) setSautView(sub);
+  window.scrollTo(0, 0);
 }
-renderVSaut([...sautVint].sort((a, b) => b.y - a.y));
+window.addEventListener('hashchange', route);
+
+// =============================================
+// START
+// =============================================
+$('tiles').innerHTML = [
+  ['#jahrgaenge', 'Jahrgänge', `${vintages.length} Jahrgänge · 1980–2024`, 'main'],
+  ['#appellationen', 'Appellationen', `${appellations.length} Regionen`],
+  ['#medoc', 'Klassifikation 1855', `${gcc.length} Châteaux · Médoc`],
+  ['#sauternes', 'Sauternes & Barsac', `${sautData.length} Châteaux`],
+  ['#linkes-ufer', 'Linkes Ufer', 'Médoc · Graves'],
+  ['#rechtes-ufer', 'Rechtes Ufer', 'Saint-Émilion · Pomerol'],
+].map(([h, b, s, c]) => `<a class="tile ${c || ''}" href="${h}"><b>${b}</b><span>${s}</span></a>`).join('');
+
+// =============================================
+// APPELLATIONEN
+// =============================================
+const appLinks = {
+  'Saint-Émilion · Pomerol · Fronsac': [['#rechtes-ufer', 'Jahrgänge']],
+  'Médoc & Haut-Médoc': [['#medoc', '1855-Châteaux'], ['#linkes-ufer', 'Jahrgänge']],
+  'Graves & Pessac-Léognan': [['#linkes-ufer', 'Jahrgänge']],
+  'Vins Blancs d\'Or — Süßweine': [['#sauternes', 'Châteaux'], ['#sauternes-jahrgaenge', 'Jahrgänge']],
+};
+$('appList').innerHTML = appellations.map(a => `<article class="card">
+    <div class="rc-name"><span class="dot" style="background:${a.color}"></span>${a.name}</div>
+    <div class="rc-type">${a.type}</div>
+    <p class="rc-desc">${a.desc}</p>
+    <div class="rc-x" hidden><div class="rc-subs">${a.subs.map(s => `<span>${s}</span>`).join('')}</div></div>
+    <div class="rc-actions">
+      <button class="btn ghost" data-more>Appellationen (${a.subs.length})</button>
+      ${(appLinks[a.name] || []).map(([h, l], i) => `<a class="btn ${i ? 'ghost' : 'pri'}" href="${h}">${l}</a>`).join('')}
+    </div>
+  </article>`).join('');
+$('appList').addEventListener('click', e => {
+  const m = e.target.closest('[data-more]'); if (!m) return;
+  const c = m.closest('.card'), x = c.querySelector('.rc-x'), n = c.querySelectorAll('.rc-subs span').length;
+  x.hidden = !x.hidden; c.classList.toggle('open', !x.hidden); m.textContent = x.hidden ? `Appellationen (${n})` : 'Weniger';
+});
+
+// =============================================
+// JAHRGÄNGE
+// =============================================
+const VCOLS = [['p', 'Pauillac / St-Julien', 'left'], ['mg', 'Margaux', 'left'], ['es', 'St-Estèphe', 'left'], ['pe', 'Pessac-Léognan', 'left'], ['pm', 'Pomerol', 'right'], ['em', 'St-Émilion', 'right'], ['st', 'Sauternes', 'saut']];
+const vSt = { col:'all', f:'all', sort:'year' };
+const vCols = () => VCOLS.filter(c => vSt.col === 'all' || c[2] === vSt.col);
+function vAvg(v) { const vals = vCols().map(c => v[c[0]]).filter(x => x > 0); return vals.length ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length) : 0; }
+const vQ = a => a >= 96 ? ['leg', '★ Legendär'] : a >= 90 ? ['exc', 'Exzellent'] : a >= 85 ? ['vgood', 'Sehr gut'] : a >= 80 ? ['good', 'Gut'] : ['poor', 'Schwach'];
+$('v-chips').innerHTML = chipsHtml([['all', 'Alle'], ['leg', '★ Legendär 96+'], ['exc', 'Exzellent 90–95'], ['vgood', 'Sehr gut 85–89'], ['good', 'Gut 80–84'], ['poor', 'Schwach <80']], 'all');
+onChip($('v-chips'), v => { vSt.f = v; renderVintage(); });
+onSeg($('v-seg'), v => { vSt.col = v; renderVintage(); });
+function setVCol(v) { vSt.col = v; $('v-seg').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === v)); renderVintage(); }
+$('v-sort').addEventListener('change', e => { vSt.sort = e.target.value; renderVintage(); });
+function renderVintage() {
+  const srt = { year:(a, b) => b.y - a.y, old:(a, b) => a.y - b.y, avg:(a, b) => vAvg(b) - vAvg(a) || b.y - a.y }[vSt.sort];
+  const cols = vCols(), data = vintages.filter(v => vSt.f === 'all' || vQ(vAvg(v))[0] === vSt.f).sort(srt);
+  $('v-count').textContent = `${data.length} ${data.length === 1 ? 'Jahrgang' : 'Jahrgänge'}`;
+  $('v-list').innerHTML = data.map(v => `<article class="card">
+    <div class="vc-top"><div><div class="vc-year">${v.y}</div><div class="vc-q">${vQ(vAvg(v))[1]} · Ø ${vAvg(v)}</div></div>${scBadge(vAvg(v))}</div>
+    ${cols.length > 1 ? `<div class="vc-grid${cols.length === 7 ? ' n7' : ''}">${cols.map(([k, l]) => `<div>${scBadge(v[k], 1)}${l}</div>`).join('')}</div>` : ''}
+    <p class="vc-note">${v.note}</p>
+    <div class="vc-drink"><b>Trinkreife:</b> ${v.drink}</div>
+  </article>`).join('') || '<div class="empty">Keine Jahrgänge für diese Auswahl.</div>';
+}
+
+// =============================================
+// CHÂTEAUX-LISTEN (1855 Médoc, Sauternes & Barsac)
+// =============================================
+const cruLabel = { '1':'1er Cru', '2':'2ème Cru', '3':'3ème Cru', '4':'4ème Cru', '5':'5ème Cru' };
+const cruColor = { '1':'#A8862E', '2':'#9A6E30', '3':'#805028', '4':'#603818', '5':'#4A2C1C' };
+const sautCruLabel = { sup:'Premier Cru Supérieur', '1er':'1er Cru', '2eme':'2ème Cru' };
+const sautCruColor = { sup:'#A8862E', '1er':'#9B6828', '2eme':'#6B4818' };
+const sautOrder = { sup:0, '1er':1, '2eme':2 };
+
+function chateauList(cfg) {
+  const s = { cru:'all', app:'all', q:'', sort:'cru' };
+  const count = (k, v) => cfg.data.filter(c => c[k] === v || (k === 'app' && cfg.appOf(c) === v)).length;
+  $(cfg.id + '-cru').innerHTML = chipsHtml([['all', 'Alle', cfg.data.length]].concat(Object.keys(cfg.label).map(k => [k, cfg.label[k], count('cru', k)])), 'all');
+  $(cfg.id + '-app').innerHTML = chipsHtml([['all', 'Alle']].concat(cfg.apps.map(a => [a, a, count('app', a)])), 'all');
+  const render = () => {
+    const q = norm(s.q);
+    const srt = { cru:(a, b) => cfg.order(a) - cfg.order(b), name:(a, b) => a.name.localeCompare(b.name, 'de'), app:(a, b) => a.app.localeCompare(b.app, 'de') || cfg.order(a) - cfg.order(b) }[s.sort];
+    const list = cfg.data.filter(c => (s.cru === 'all' || c.cru === s.cru) && (s.app === 'all' || cfg.appOf(c) === s.app) && (!q || norm(c.name + ' ' + c.app + ' ' + c.grapes + ' ' + c.note).includes(q))).sort(srt);
+    $(cfg.id + '-count').textContent = `${list.length} ${list.length === 1 ? 'Château' : 'Châteaux'}`;
+    $(cfg.id + '-list').innerHTML = list.map(c => `<article class="card">
+      <span class="cru" style="background:${cfg.color[c.cru]}">${cfg.label[c.cru]}</span>
+      <h3 class="cc-name">${c.name}</h3>
+      <div class="cc-app">${c.app}</div>
+      <div class="cc-meta">${c.grapes.split(', ').map(g => `<span class="grape">${g}</span>`).join('')}</div>
+      <p class="cc-note">${c.note}</p>
+    </article>`).join('') || '<div class="empty">Keine Châteaux für diese Auswahl.</div>';
+  };
+  onChip($(cfg.id + '-cru'), v => { s.cru = v; render(); });
+  onChip($(cfg.id + '-app'), v => { s.app = v; render(); });
+  $(cfg.id + '-q').addEventListener('input', e => { s.q = e.target.value.trim(); render(); });
+  $(cfg.id + '-sort').addEventListener('change', e => { s.sort = e.target.value; render(); });
+  render();
+}
+const medocApps = ['Pauillac', 'Margaux', 'Saint-Julien', 'Saint-Estèphe', 'Haut-Médoc', 'Pessac-Léognan'];
+chateauList({ id:'m', data:gcc, label:cruLabel, color:cruColor, order:c => +c.cru, apps:medocApps,
+  appOf:c => c.app.startsWith('Pessac') ? 'Pessac-Léognan' : (medocApps.find(a => c.app.startsWith(a)) || c.app) });
+chateauList({ id:'s', data:sautData, label:sautCruLabel, color:sautCruColor, order:c => sautOrder[c.cru], apps:['Sauternes', 'Barsac'], appOf:c => c.app });
+
+// Sauternes-Jahrgänge
+const svSt = { sort:'year' };
+function setSautView(v) {
+  $('s-seg').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  $('s-chateaux').hidden = v !== 'chateaux'; $('s-vintages').hidden = v !== 'vintages';
+}
+onSeg($('s-seg'), setSautView);
+$('sv-sort').addEventListener('change', e => { svSt.sort = e.target.value; renderVSaut(); });
+function renderVSaut() {
+  const srt = { year:(a, b) => b.y - a.y, old:(a, b) => a.y - b.y, avg:(a, b) => b.s - a.s || b.y - a.y }[svSt.sort];
+  const data = [...sautVint].sort(srt);
+  $('sv-count').textContent = `${data.length} Jahrgänge`;
+  $('sv-list').innerHTML = data.map(v => `<article class="card">
+    <div class="vc-top"><div><div class="vc-year">${v.y}</div><div class="bot" style="color:${v.s >= 94 ? 'var(--gold)' : v.s >= 88 ? 'var(--goldl)' : 'var(--dim)'}">${v.bot}</div></div>${scBadge(v.s)}</div>
+    <p class="vc-note">${v.note}</p>
+  </article>`).join('');
+}
+
+// =============================================
+// INIT
+// =============================================
+renderVintage();
+renderVSaut();
+route();
 </script>
 </body>
 </html>
